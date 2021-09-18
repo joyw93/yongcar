@@ -6,3 +6,6 @@ from yong.models.question_model import Question
 bp = Blueprint('test', __name__, url_prefix='/')
 
 
+@bp.route('/test')
+def test():
+    return render_template('test.html')
