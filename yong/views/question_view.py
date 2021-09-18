@@ -30,8 +30,22 @@ def detail(question_id):
     return render_template('question/question_detail.html', question=question, answer_list=answer_list)
 
 
-@bp.route('/delete/<int:question_id>')
+@bp.route('/modify/question/<int:question_id>', methods=['GET', 'POST'])
+@login_required
+def modify(question_id):
+    form = QuestionForm()
+    if request.method == 'POST' and form.validate_on_submit():
+        title = request.form['title']
+        content = request.form['content']
+        Question.modify(title, content, question_id)
+
+        return redirect(url_for('main.home'))
+    return render_template('question/add_question.html', form=form)
+
+
+@bp.route('/delete/question/<int:question_id>')
 @login_required
 def delete(question_id):
     Question.delete(question_id)
     return redirect(url_for('main.home'))
+

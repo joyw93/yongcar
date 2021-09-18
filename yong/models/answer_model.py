@@ -49,7 +49,7 @@ class Answer:
     def delete(answer_id):
         mysql_db = conn_mysqldb()
         db_cursor = mysql_db.cursor()
-        sql = """DELETE FROM answer_table WHERE answer_id = '%s';""" % str(answer_id)
+        sql = "DELETE FROM answer_table WHERE answer_id = '%s';" % str(answer_id)
         db_cursor.execute(sql)
         mysql_db.commit()
 

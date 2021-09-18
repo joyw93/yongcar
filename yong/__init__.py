@@ -1,7 +1,7 @@
 from flask import Flask
 from yong.models.user_model import User
 from flask_login import LoginManager
-import key
+from yong.key import SECRET_KEY
 
 
 def create_app():

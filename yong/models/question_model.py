@@ -52,7 +52,19 @@ class Question:
     def delete(question_id):
         mysql_db = conn_mysqldb()
         db_cursor = mysql_db.cursor()
-        sql = """DELETE FROM question_table WHERE question_id = '%s';""" % str(question_id)
+        sql = "DELETE FROM question_table WHERE question_id = '%s';" % str(question_id)
+        db_cursor.execute(sql)
+        mysql_db.commit()
+
+    @staticmethod
+    def modify(title, content, question_id):
+        mysql_db = conn_mysqldb()
+        db_cursor = mysql_db.cursor()
+
+        sql = """UPDATE question_table 
+                 SET title='%s', content='%s' 
+                 WHERE question_id = '%s';
+                 """ % (str(title), str(content), str(question_id))
         db_cursor.execute(sql)
         mysql_db.commit()
 
