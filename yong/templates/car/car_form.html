@@ -1,0 +1,163 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="row mb-3">
+
+
+  <form class="col-3" method="POST" action="{{ url_for('car.form') }}"> <!-- note action -->
+
+    <select required="required" class="form-select" aria-label="Default select example" id="manufact" name="manufact" >
+      <option value="">제조사 선택</option>
+      <option value="현대">현대</option>
+      <option value="기아">기아</option>
+      <option value="르노삼성">르노삼성</option>
+      <option value="벤츠">벤츠</option>
+      <option value="BMW">BMW</option>
+      <option value="아우디">아우디</option>
+    </select>
+
+
+    <select required="required" class="form-select" aria-label="Default select example" id="model" name="model">
+      <option value="">모델 선택</option>
+      <!-- 현대 -->
+      <option value="아반떼" class="현대">아반떼</option>
+      <option value="쏘나타" class="현대">쏘나타</option>
+      <option value="그랜저" class="현대">그랜저</option>
+      
+      <!-- 기아 -->
+      <option value="K3" class="기아">K3</option>
+      <option value="K5" class="기아">K5</option>
+      <option value="K7" class="기아">K7</option>
+      
+      <!-- 르노삼성 -->
+      <option value="SM3" class="르노삼성">SM3</option>
+      <option value="SM5" class="르노삼성">SM5</option>
+      <option value="SM7" class="르노삼성">SM7</option>
+
+      <!-- 벤츠  -->
+      <option value="C클래스" class="벤츠">C클래스</option>
+      <option value="E클래스" class="벤츠">E클래스</option>
+      <option value="S클래스" class="벤츠">S클래스</option>
+
+      <!-- BMW  -->
+      <option value="3시리즈" class="BMW">3시리즈</option>
+      <option value="5시리즈" class="BMW">5시리즈</option>
+      <option value="7시리즈" class="BMW">7시리즈</option>
+
+      <!-- 아우디  -->
+      <option value="A3" class="아우디">A3</option>
+      <option value="A4" class="아우디">A4</option>
+      <option value="A6" class="아우디">A6</option>
+      <option value="A7" class="아우디">A7</option>
+    </select>
+
+
+    <select required="required" class="form-select" aria-label="Default select example" id="age" name="age">
+      <option value="">연식 선택</option>
+      <option value="2021-06">2021년식</option>
+      <option value="2020-06">2020년식</option>
+      <option value="2019-06">2019년식</option>
+      <option value="2018-06">2018년식</option>
+      <option value="2017-06">2017년식</option>
+      <option value="2016-06">2016년식</option>
+      <option value="2015-06">2015년식</option>
+      <option value="2014-06">2014년식</option>
+      <option value="2013-06">2013년식</option>
+      <option value="2012-06">2012년식</option>
+      <option value="2011-06">2011년식</option>
+      <option value="2010-06">2010년식</option>
+      <option value="2009-06">2009년식</option>
+      <option value="2008-06">2008년식</option>
+      <option value="2007-06">2007년식</option>
+      <option value="2006-06">2006년식</option>
+      <option value="2005-06">2005년식</option>
+      <option value="2004-06">2004년식</option>
+      <option value="2003-06">2003년식</option>
+      <option value="2002-06">2002년식</option>
+      <option value="2001-06">2001년식</option>
+      <option value="2000-06">2000년식</option>
+    </select>
+
+
+
+    <div class="input-group">
+      <input name="odo" id="odo" type="text" class="form-control" placeholder="주행거리" aria-label="Recipient's username" aria-describedby="basic-addon2">
+      <span class="input-group-text" id="basic-addon2">km</span>
+    </div>
+
+    
+
+    
+    <select required="required" class="form-select" aria-label="Default select example" id="fuel" name="fuel">
+      <option value="">연료타입 선택</option>
+      <option value="가솔린">가솔린</option>
+      <option value="디젤">디젤</option>
+      <option value="LPG">LPG</option>
+      <option value="hybird">하이브리드</option>
+    </select>
+
+
+    <select required="required" class="form-select" aria-label="Default select example" id="color" name="color">
+      <option value="">색상 선택</option>
+      <option value="black">검정색</option>
+      <option value="white">흰색</option>
+      <option value="gray">은색&회색</option>
+      <option value="other">기타</option>
+    </select>
+
+
+    <button type="submit" class="btn btn-primary">검색하기</button>
+  </form>
+
+{% if price %}
+
+  <div class="col-7">
+      <h1 class="fw-bold">{{manufact}} {{model}} <span class="text-muted">차량 정보입니다.</span></h2>
+      <img src="/static/car_image/{{manufact}}_{{model}}.jpg" alt="My Image" width="500" height="300">
+      <p class="text-muted">{{age}} | {{odo}}km | {{fuel}}</p>
+      <h3 class="fw-bold">해당 매물은 <strong class="text-primary">{{price}}만원</strong>으로 예측 됩니다.</h2>
+  </div>
+
+
+{% else %}
+
+
+
+{% endif %}
+
+
+</div>
+
+
+<script>
+
+  let manu_select = document.getElementById('manufact');
+  let model_select = document.getElementById('model');
+  for(var item of model_select){
+            if(item.className != '현대'){
+                // console.log(item.className);
+                item.style.display = 'none';
+            }
+        }
+
+  manu_select.onchange = function(){
+           
+      var selectClass = manu_select.value;
+      
+      for(var item of model_select){
+        if(item.className == selectClass){          
+          item.style.display ='inline';          
+        }else{          
+          item.style.display = 'none';
+        }
+      }
+
+      firstVal = document.getElementsByClassName(selectClass)
+      model_select.value = firstVal[0].value
+
+  }
+
+</script>
+
+
+{% endblock %}

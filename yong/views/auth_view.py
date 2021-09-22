@@ -46,7 +46,7 @@ def login():
         if error is None:
             user = User.find(input_email)
             login_user(user)
-            return redirect(url_for('main.home'))
+            return redirect(url_for('question._list'))
 
         flash(error)
 

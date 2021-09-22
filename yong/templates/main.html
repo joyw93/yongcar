@@ -1,11 +1,59 @@
-{% extends "base.html" %}
-{% block content %}
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Hugo 0.88.1">
+    <title>용카</title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/heroes/">
 
 
-<br>
-<h1>안녕하세요, 메인페이지입니다.</h1>
+
+    <!-- Bootstrap core CSS -->
+<link href="/static/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+    </style>
 
 
+    <!-- Custom styles for this template -->
+    <link href="/static/heroes.css" rel="stylesheet">
+  </head>
+  <body>
+{% include "navbar.html" %}
+<main>
+  <h1 class="visually-hidden">Heroes examples</h1>
+
+  <div class="px-4 py-5 my-5 text-center">
+
+    <h1 class="p-3 display-5 fw-bold">환영합니다!</h1>
+    <div class="col-lg-6 mx-auto">
+      <p class="p-2 lead mb-4">중고차 시세조회, 허위매물예측, 그리고 자유게시판을 이용할 수 있는 사이트입니다.</p>
+    </div>
+  </div>
 
 
-{% endblock %}
+</main>
+
+
+    <script src="/static/dist/js/bootstrap.bundle.min.js"></script>
+
+
+  </body>
+</html>

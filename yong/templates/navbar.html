@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+<nav class="navbar navbar-expand-sm navbar-dark bg-dark border-bottom ">
   <div class="container-fluid">
     <a class="navbar-brand" href="{{ url_for('main.home') }}">Yong</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -9,21 +9,49 @@
         {% if current_user.is_authenticated %}
 
 
-         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
         <li class="nav-item">
-          <a class="nav-link" href="{{url_for('auth.logout')}}">{{ current_user.user_name }}(로그아웃) </a>
+          <a class="nav-link" href="{{url_for('car.form')}}">시세조회</a>
         </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="{{url_for('question._list')}}">게시판</a>
+        </li>
+
       </ul>
 
+       <div class="text-end">
+          <button type="button" onclick="location.href='{{url_for('auth.logout')}}'" class="btn btn-sm btn-outline-light me-2" >로그아웃</button>
+       </div>
+
         {% else %}
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+      <ul class="navbar-nav  me-auto mb-2 mb-lg-0">
+
+
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="{{url_for('auth.register')}}">회원가입</a>
+          <a class="nav-link" href="{{url_for('car.form')}}">시세조회</a>
         </li>
+
         <li class="nav-item">
-          <a class="nav-link" href="{{url_for('auth.login')}}">로그인</a>
+          <a class="nav-link" href="{{url_for('question._list')}}">게시판</a>
         </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="{{url_for('test.form')}}">테스트</a>
+       </li>
+
       </ul>
+
+       <div class="text-end">
+          <button type="button" onclick="location.href='{{url_for('auth.login')}}'" class="btn-sm btn btn-outline-light me-2" >로그인</button>
+          <button type="button" onclick="location.href='{{url_for('auth.register')}}'" class="btn-sm btn btn-primary">회원가입</button>
+       </div>
+
+
+
+
 
           {% endif %}
 

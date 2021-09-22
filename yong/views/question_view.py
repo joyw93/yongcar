@@ -4,10 +4,10 @@ from ..forms import QuestionForm
 from yong.models.question_model import Question
 from yong.models.answer_model import Answer
 
-bp = Blueprint('question', __name__, url_prefix='/')
+bp = Blueprint('question', __name__, url_prefix='/question')
 
 
-@bp.route('/question', methods=['GET', 'POST'])
+@bp.route('/create', methods=['GET', 'POST'])
 @login_required
 def create():
     form = QuestionForm()
@@ -23,14 +23,20 @@ def create():
     return render_template('question/add_question.html', form=form)
 
 
-@bp.route('/question/<int:question_id>')
+@bp.route('/')
+def _list():
+    question_list = Question.get_list()
+    return render_template('question/question_list.html', question_list=question_list)
+
+
+@bp.route('/<int:question_id>')
 def detail(question_id):
     question = Question.get(question_id)
     answer_list = Answer.get_list(question_id)
     return render_template('question/question_detail.html', question=question, answer_list=answer_list)
 
 
-@bp.route('/modify/question/<int:question_id>', methods=['GET', 'POST'])
+@bp.route('/modify/<int:question_id>', methods=['GET', 'POST'])
 @login_required
 def modify(question_id):
     form = QuestionForm()
@@ -43,7 +49,7 @@ def modify(question_id):
     return render_template('question/add_question.html', form=form)
 
 
-@bp.route('/delete/question/<int:question_id>')
+@bp.route('/delete/<int:question_id>')
 @login_required
 def delete(question_id):
     Question.delete(question_id)
