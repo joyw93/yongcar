@@ -13,19 +13,8 @@ lgbm = joblib.load('model.pkl')
 @bp.route('/form', methods=['GET', 'POST'])
 def form():
     
-    if request.method == 'POST':
 
-        manufact = request.form.get('manufact')
-        model = request.form.get('model')
-        age = request.form.get('age')
-        odo = int(request.form.get('odo'))
-        fuel = request.args.get('fuel')
-        color = request.args.get('color')
-
-        result = Predict.price(lgbm, model, age, odo, fuel, color)
-        return render_template('test_result.html', result=result)
-
-    return render_template('test_form.html', form=form)
+    return render_template('test_form.html')
 
 
 @bp.route('/result')

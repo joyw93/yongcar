@@ -14,12 +14,10 @@ def register():
         name = request.form['name']
         email = request.form['email']
         pw = request.form['pw']
-
-        pw_hash = hashpw(pw.encode('UTF-8'), gensalt())
-        pw_decode = pw_hash.decode()
-
+        pw_hash = hashpw(pw.encode('UTF-8'), gensalt()).decode()
+        
         if not User.find(email):
-            User.create(name, email, pw_decode)
+            User.create(name, email, pw_hash)
             user = User.find(email)
             login_user(user)
 

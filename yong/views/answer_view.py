@@ -10,8 +10,8 @@ bp = Blueprint('answer', __name__, url_prefix='/')
 def create(question_id):
     content = request.form['content']
     user_id = current_user.user_id
-    answer = Answer.create(user_id, question_id, content)
-    return redirect(url_for('question.detail', question_id=answer.question_id))
+    Answer.create(user_id, question_id, content)
+    return redirect(url_for('question.detail', question_id=question_id))
 
 
 

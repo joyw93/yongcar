@@ -4,10 +4,14 @@ from yong.mysql import conn_mysqldb
 
 class Answer:
 
-    def __init__(self, user_id, question_id, content):
+    def __init__(self,answer_id, user_id, question_id, content):
+        self.answer_id = answer_id
         self.user_id = user_id
         self.question_id = question_id
         self.content = content
+
+    def get_id(self):
+        return str(self.answer_id)
 
     @staticmethod
     def create(user_id, question_id, content):
@@ -17,7 +21,7 @@ class Answer:
                 str(user_id), str(question_id), str(content))
         db_cursor.execute(sql)
         mysql_db.commit()
-        return Answer(user_id, question_id, content)
+        
 
     @staticmethod
     def get(answer_id):
@@ -29,7 +33,7 @@ class Answer:
         if not answer:
             return None
 
-        answer = Answer(user_id=answer[1], question_id=answer[2], content=answer[3])
+        answer = Answer(answer_id=answer[0], user_id=answer[1], question_id=answer[2], content=answer[3])
         return answer
 
     @staticmethod

@@ -1,23 +1,188 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="container my-3">
-<h5 class="my-3 border-bottom pb-2">제조사</h5>
-    <form method="get" class="post-form" action="/car/info">
 
 
-        <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-          <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked>
-          <label class="btn btn-outline-primary" for="btnradio1">Radio 1</label>
 
-          <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
-          <label class="btn btn-outline-primary" for="btnradio2">Radio 2</label>
-
-          <input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off">
-          <label class="btn btn-outline-primary" for="btnradio3">Radio 3</label>
-        </div>
+<div class="row">
 
 
-        <button type="submit" class="btn btn-primary">저장하기</button>
-    </form>
+  <form class="col-3 d-grid gap-1" method="POST" action="{{ url_for('car.form') }}"> <!-- note action -->
+
+    <select required="required" class="form-select" aria-label="Default select example" id="manufact" name="manufact" >
+      <option value="">제조사 선택</option>
+      <option value="현대">현대</option>
+      <option value="기아">기아</option>
+      <option value="르노삼성">르노삼성</option>
+      <option value="쌍용">쌍용</option>
+      <option value="GM대우">GM대우</option>
+      <option value="벤츠">벤츠</option>
+      <option value="BMW">BMW</option>
+      <option value="아우디">아우디</option>
+      <option value="폭스바겐">폭스바겐</option>
+    </select>
+
+
+    <select required="required" class="form-select" aria-label="Default select example" id="model" name="model">
+      <option value="">모델 선택</option>
+      <!-- 현대 -->
+      <option value="아반떼" class="현대">아반떼</option>
+      <option value="쏘나타" class="현대">쏘나타</option>
+      <option value="그랜저" class="현대">그랜저</option>
+      <option value="G70" class="현대">G70</option>
+      <option value="G80" class="현대">G80</option>
+      
+      <!-- 기아 -->
+      <option value="K3" class="기아">K3</option>
+      <option value="K5" class="기아">K5</option>
+      <option value="K7" class="기아">K7</option>
+      
+      <!-- 르노삼성 -->
+      <option value="SM3" class="르노삼성">SM3</option>
+      <option value="SM5" class="르노삼성">SM5</option>
+      <option value="SM6" class="르노삼성">SM6</option>
+      <option value="SM7" class="르노삼성">SM7</option>
+
+      <!-- 쌍용 -->
+      <option value="티볼리" class="쌍용">티볼리</option>
+      <option value="코란도" class="쌍용">코란도</option>
+      
+       <!-- GM대우 -->
+      <option value="크루즈" class="GM대우">크루즈</option>
+      <option value="말리부" class="GM대우">말리부</option>
+
+      <!-- 벤츠  -->
+      <option value="C클래스" class="벤츠">C클래스</option>
+      <option value="E클래스" class="벤츠">E클래스</option>
+      <option value="S클래스" class="벤츠">S클래스</option>
+
+      <!-- BMW  -->
+      <option value="3시리즈" class="BMW">3시리즈</option>
+      <option value="5시리즈" class="BMW">5시리즈</option>
+      <option value="7시리즈" class="BMW">7시리즈</option>
+
+      <!-- 아우디  -->
+      <option value="A4" class="아우디">A4</option>
+      <option value="A6" class="아우디">A6</option>
+      <option value="A7" class="아우디">A7</option>
+
+      <!-- 폭스바겐  -->
+      <option value="골프" class="폭스바겐">골프</option>
+      <option value="티구안" class="폭스바겐">티구안</option>
+      <option value="파사트" class="폭스바겐">파사트</option>      
+    </select>
+
+
+    <select required="required" class="form-select" aria-label="Default select example" id="age" name="age">
+      <option value="">연식 선택</option>
+      <option value="2021">2021년식</option>
+      <option value="2020">2020년식</option>
+      <option value="2019">2019년식</option>
+      <option value="2018">2018년식</option>
+      <option value="2017">2017년식</option>
+      <option value="2016">2016년식</option>
+      <option value="2015">2015년식</option>
+      <option value="2014">2014년식</option>
+      <option value="2013">2013년식</option>
+      <option value="2012">2012년식</option>
+      <option value="2011">2011년식</option>
+      <option value="2010">2010년식</option>
+      <option value="2009">2009년식</option>
+      <option value="2008">2008년식</option>
+      <option value="2007">2007년식</option>
+      <option value="2006">2006년식</option>
+      <option value="2005">2005년식</option>
+      <option value="2004">2004년식</option>
+      <option value="2003">2003년식</option>
+      <option value="2002">2002년식</option>
+      <option value="2001">2001년식</option>
+      <option value="2000">2000년식</option>
+    </select>
+
+
+
+    <div class="input-group">
+      <input required="required" name="odo" id="odo" type="text" class="form-control" placeholder="주행거리" aria-label="Recipient's username" aria-describedby="basic-addon2">
+      <span class="input-group-text p-2" id="basic-addon2">km</span>
+    </div>
+
+    
+
+    
+    <select required="required" class="form-select p-2" aria-label="Default select example" id="fuel" name="fuel">
+      <option value="">연료타입 선택</option>
+      <option value="가솔린">가솔린</option>
+      <option value="디젤">디젤</option>
+      <option value="LPG">LPG</option>
+      <option value="hybird">하이브리드</option>
+    </select>
+
+
+    <select required="required" class="form-select p-2" aria-label="Default select example" id="color" name="color">
+      <option value="">색상 선택</option>
+      <option value="black">검정색</option>
+      <option value="white">흰색</option>
+      <option value="gray">은색&회색</option>
+      <option value="other">기타</option>
+    </select>
+
+
+    <button type="submit" class="btn btn-primary p-2">검색하기</button>
+  </form>
+
+
+{% if price %}
+  <div class="col-8">
+  
+      <h1 class="fw-bold">{{manufact}} {{model}} <span class="text-muted">차량 정보입니다.</span></h1>
+      <img src="/static/car_image/{{manufact}}_{{model}}.jpg" alt="My Image" width="500" height="300">
+      <p class="text-muted">{{age}}년식 | {{odo}}km | {{fuel}}</p>
+      <h2 class="fw-bold">해당 매물은 <strong class="text-primary">{{price}}만원</strong>으로 예측 됩니다.</h2>
+  </div>
+
+
+{% else %}
+
+  <div class="col-8">
+  
+      <h1 class="fw-bold"> 현대 그랜저 <span class="text-muted">차량 정보입니다.</span></h1>
+      <img src="/static/car_image/현대_그랜저.jpg" alt="My Image" width="500" height="300">
+      <p class="text-muted">2020년식 | 35,000km | 가솔린</p>
+      <h2 class="fw-bold">해당 매물은 <strong class="text-primary">3,500만원</strong>으로 예측 됩니다.</h2>
+  </div>
+
+{% endif %}
+
 </div>
+
+
+<script>
+
+  let manu_select = document.getElementById('manufact');
+  let model_select = document.getElementById('model');
+  for(var item of model_select){
+            if(item.className != '현대'){
+                item.style.display = 'none';
+            }
+        }
+
+  manu_select.onchange = function(){
+           
+      var selectClass = manu_select.value;
+      
+      for(var item of model_select){
+        if(item.className == selectClass){          
+          item.style.display ='inline';          
+        }else{          
+          item.style.display = 'none';
+        }
+      }
+
+      firstVal = document.getElementsByClassName(selectClass)
+      model_select.value = firstVal[0].value
+
+  }
+
+</script>
+
+
 {% endblock %}
