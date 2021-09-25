@@ -1,14 +1,17 @@
+from datetime import time
 import pymysql.cursors
 from yong.mysql import conn_mysqldb
+from datetime import datetime
 
 
 class Question:
 
-    def __init__(self, question_id, user_id, title, content):
+    def __init__(self, question_id, user_id, title, content, time):
         self.question_id = question_id
         self.user_id = user_id
         self.title = title
         self.content = content
+        self.time = time
 
     def get_id(self):
         return str(self.question_id)
@@ -17,8 +20,8 @@ class Question:
     def create(user_id, title, content):
         mysql_db = conn_mysqldb()
         db_cursor = mysql_db.cursor()
-        sql = "INSERT INTO question_table (user_id, title, content) VALUES ('%s', '%s', '%s')" % (
-                str(user_id), str(title), str(content))
+        sql = "INSERT INTO question_table (user_id, title, content, time) VALUES ('%s', '%s', '%s', '%s')" % (
+                str(user_id), str(title), str(content), str(datetime.now()))
         db_cursor.execute(sql)
         mysql_db.commit()
 
@@ -32,7 +35,7 @@ class Question:
         if not question:
             return None
 
-        question = Question(question_id=question[0], user_id=question[1], title=question[2], content=question[3])
+        question = Question(question_id=question[0], user_id=question[1], title=question[2], content=question[3], time=question[4])
         return question
 
 
@@ -40,7 +43,7 @@ class Question:
     def get_list():
         mysql_db = conn_mysqldb()
         db_cursor = mysql_db.cursor(pymysql.cursors.DictCursor)
-        sql = """SELECT question_id, title, content, user_name 
+        sql = """SELECT question_id, title, content, user_name, time
                  FROM question_table q 
                  JOIN user_table u ON q.user_id = u.user_id 
                  ORDER BY question_id;"""

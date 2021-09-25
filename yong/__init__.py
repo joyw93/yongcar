@@ -19,6 +19,9 @@ def create_app():
     app.register_blueprint(answer_view.bp)
     app.register_blueprint(car_view.bp)
 
+    from .filter import format_datetime
+    app.jinja_env.filters['datetime'] = format_datetime
+
     @login_manager.user_loader
     def load_user(user_id):
         return User.get(user_id)
