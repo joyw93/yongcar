@@ -6,7 +6,7 @@ from yong.key import SECRET_KEY
 
 def create_app():
     app = Flask(__name__)
-    app.config["SECRET_KEY"] = key.SECRET_KEY
+    app.config["SECRET_KEY"] = SECRET_KEY
     login_manager = LoginManager()
     login_manager.login_view = 'auth.login'
     login_manager.login_message = u"로그인이 필요합니다."

@@ -3,7 +3,7 @@ from sklearn.model_selection import train_test_split
 import joblib
 from lightgbm import LGBMRegressor
 
-url = 'https://blog.kakaocdn.net/dn/Gm4wc/btrfO4AnI9y/HbeHynaVdC1WQQKG8ZncSk/final.csv?attach=1&knm=tfile.csv'
+url = 'https://yongket.s3.ap-northeast-2.amazonaws.com/csv/used_car.csv'
 df = pd.read_csv(url, encoding='cp949')
 df['model'] = df['model'].astype('category')
 df['fuel'] = df['fuel'].astype('category')
