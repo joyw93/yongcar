@@ -1,16 +1,41 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 {% block content %}
 
 
+{% if car %}
 
-<div class="row">
 
 
-  <form class="col-3 d-grid gap-1" method="POST" action="{{ url_for('car.form') }}"> <!-- note action -->
+<div class="col-5 container my-3">
+<h5 class="my-3 border-bottom pb-2">가격 및 상세정보 입력</h5>
+    <form method="post" class="post-form" action="{{ url_for('car.register', car=car) }}">
 
-    <select required="required" class="form-select" aria-label="Default select example" id="manufact" name="manufact" >
+    <div class="input-group">
+      <input required="required p-2" onkeyup="inputNumberFormat(this)" name="price" id="price" type="text" class="form-control" placeholder="가격" aria-describedby="basic-addon2">
+      <span class="input-group-text p-2" id="basic-addon2">만원</span>
+    </div>
+
+
+        <div class="form-group">
+            <label for="content">상세 정보</label>
+            <textarea class="form-control" name="content" id="content" rows="10"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">등록하기</button>
+    </form>
+</div>
+
+
+
+{% else %}
+
+
+<form class="col-5 d-grid gap-2" method="POST" action="{{ url_for('car.create') }}"> <!-- note action -->
+   
+
+    <select required="required" class="form-select p-2" id="manufact" name="manufact" >
       <option value="">제조사 선택</option>
       <option value="현대">현대</option>
+      <option value="제네시스">제네시스</option>
       <option value="기아">기아</option>
       <option value="르노삼성">르노삼성</option>
       <option value="쌍용">쌍용</option>
@@ -22,14 +47,16 @@
     </select>
 
 
-    <select required="required" class="form-select" aria-label="Default select example" id="model" name="model">
+    <select required="required" class="form-select p-2" id="model" name="model">
       <option value="">모델 선택</option>
       <!-- 현대 -->
       <option value="아반떼" class="현대">아반떼</option>
       <option value="쏘나타" class="현대">쏘나타</option>
       <option value="그랜저" class="현대">그랜저</option>
-      <option value="G70" class="현대">G70</option>
-      <option value="G80" class="현대">G80</option>
+      
+      <!-- 제네시스 -->
+      <option value="G70" class="제네시스">G70</option>
+      <option value="G80" class="제네시스">G80</option>
       
       <!-- 기아 -->
       <option value="K3" class="기아">K3</option>
@@ -72,7 +99,7 @@
     </select>
 
 
-    <select required="required" class="form-select" aria-label="Default select example" id="age" name="age">
+    <select required="required" class="form-select p-2" id="age" name="age">
       <option value="">연식 선택</option>
       <option value="2021">2021년식</option>
       <option value="2020">2020년식</option>
@@ -101,14 +128,14 @@
 
 
     <div class="input-group">
-      <input required="required" name="odo" id="odo" type="text" class="form-control" placeholder="주행거리" aria-label="Recipient's username" aria-describedby="basic-addon2">
+      <input required="required p-2" onkeyup="inputNumberFormat(this)" name="odo" id="odo" type="text" class="form-control" placeholder="주행거리" aria-describedby="basic-addon2">
       <span class="input-group-text p-2" id="basic-addon2">km</span>
     </div>
 
     
 
     
-    <select required="required" class="form-select p-2" aria-label="Default select example" id="fuel" name="fuel">
+    <select required="required" class="form-select p-2" id="fuel" name="fuel">
       <option value="">연료타입 선택</option>
       <option value="가솔린">가솔린</option>
       <option value="디젤">디젤</option>
@@ -117,7 +144,7 @@
     </select>
 
 
-    <select required="required" class="form-select p-2" aria-label="Default select example" id="color" name="color">
+    <select required="required" class="form-select p-2" id="color" name="color">
       <option value="">색상 선택</option>
       <option value="black">검정색</option>
       <option value="white">흰색</option>
@@ -126,35 +153,13 @@
     </select>
 
 
-    <button type="submit" class="btn btn-primary p-2">검색하기</button>
+    <button type="submit" class="btn btn-primary p-3">다음단계</button>
   </form>
 
 
-{% if price %}
-  <div class="col-8">
-  
-      <h1 class="fw-bold">{{manufact}} {{model}} <span class="text-muted">차량 정보입니다.</span></h1>
-      <img src="/static/car_image/{{manufact}}_{{model}}.jpg" alt="My Image" width="500" height="300">
-      <p class="text-muted">{{age}}년식 | {{odo}}km | {{fuel}}</p>
-      <h2 class="fw-bold">해당 매물은 <strong class="text-primary">{{price}}만원</strong>으로 예측 됩니다.</h2>
-  </div>
 
-
-{% else %}
-
-  <div class="col-8">
-  
-      <h1 class="fw-bold"> 현대 그랜저 <span class="text-muted">차량 정보입니다.</span></h1>
-      <img src="/static/car_image/현대_그랜저.jpg" alt="My Image" width="500" height="300">
-      <p class="text-muted">2020년식 | 35,000km | 가솔린</p>
-      <h2 class="fw-bold">해당 매물은 <strong class="text-primary">3,500만원</strong>으로 예측 됩니다.</h2>
-  </div>
 
 {% endif %}
-
-</div>
-
-
 <script>
 
   let manu_select = document.getElementById('manufact');
@@ -182,7 +187,33 @@
 
   }
 
+
+
 </script>
 
+<script type="text/javascript">
+    function comma(str) {
+        str = String(str);
+        return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+    }
+
+    function uncomma(str) {
+        str = String(str);
+        return str.replace(/[^\d]+/g, '');
+    } 
+    
+    function inputNumberFormat(obj) {
+        obj.value = comma(uncomma(obj.value));
+    }
+    
+    function inputOnlyNumberFormat(obj) {
+        obj.value = onlynumber(uncomma(obj.value));
+    }
+    
+    function onlynumber(str) {
+	    str = String(str);
+	    return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g,'$1');
+	}
+</script>
 
 {% endblock %}

@@ -12,8 +12,13 @@
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
         <li class="nav-item">
-          <a class="nav-link" href="{{url_for('car.form')}}">시세조회</a>
+          <a class="nav-link" href="{{url_for('car.predict')}}">시세조회</a>
         </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="{{url_for('car._list')}}">매물검색</a>
+       </li>
+        
 
         <li class="nav-item">
           <a class="nav-link" href="{{url_for('question._list')}}">게시판</a>
@@ -31,16 +36,16 @@
 
 
         <li class="nav-item">
-          <a class="nav-link" href="{{url_for('car.form')}}">시세조회</a>
+          <a class="nav-link" href="{{url_for('car.predict')}}">시세조회</a>
         </li>
+
+         <li class="nav-item">
+          <a class="nav-link" href="{{url_for('car._list')}}">매물검색</a>
+       </li>
 
         <li class="nav-item">
           <a class="nav-link" href="{{url_for('question._list')}}">게시판</a>
         </li>
-
-        <li class="nav-item">
-          <a class="nav-link" href="{{url_for('test.form')}}">테스트</a>
-       </li>
 
       </ul>
 

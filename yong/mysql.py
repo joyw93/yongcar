@@ -1,5 +1,5 @@
 import pymysql
-from yong.key import MYSQL_USER_PW, MYSQL_USER_ID
+from .config import MYSQL_USER_ID, MYSQL_USER_PW
 MYSQL_HOST = 'localhost'
 MYSQL_CONN = pymysql.connect(
     host=MYSQL_HOST,

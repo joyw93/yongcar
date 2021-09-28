@@ -5,12 +5,13 @@
 
 <div class="row">
 
-  <form class="m-1 h-75 col-3 d-grid gap-1" method="POST" action="{{ url_for('car.form') }}"> <!-- note action -->
+  <form class="m-1 h-75 col-3 d-grid gap-1" method="POST" action="{{ url_for('car.predict') }}"> <!-- note action -->
    
 
     <select required="required" class="form-select" id="manufact" name="manufact" >
       <option value="">제조사 선택</option>
       <option value="현대">현대</option>
+      <option value="제네시스">제네시스</option>
       <option value="기아">기아</option>
       <option value="르노삼성">르노삼성</option>
       <option value="쌍용">쌍용</option>
@@ -28,8 +29,10 @@
       <option value="아반떼" class="현대">아반떼</option>
       <option value="쏘나타" class="현대">쏘나타</option>
       <option value="그랜저" class="현대">그랜저</option>
-      <option value="G70" class="현대">G70</option>
-      <option value="G80" class="현대">G80</option>
+      
+      <!-- 제네시스 -->
+      <option value="G70" class="제네시스">G70</option>
+      <option value="G80" class="제네시스">G80</option>
       
       <!-- 기아 -->
       <option value="K3" class="기아">K3</option>
@@ -131,7 +134,7 @@
 
 
 {% if price %}
-  <div class="col-7 m-5 bg-light">  
+  <div class="col-7 m-5">  
       <h1 class="fw-bold">{{manufact}} {{model}} <span class="text-muted">차량 정보입니다.</span></h1>
       <img src="/static/car_image/{{manufact}}_{{model}}.jpg" alt="My Image" width="500" height="300">
       <p class="text-muted">{{age}}년식 | {{odo}}km | {{fuel}}</p>
@@ -141,7 +144,7 @@
 
 {% else %}
 
-<div class="col-7 bg-light ">
+<div class="col-7 ">
   
   
   <div class="px-4 py-5  text-center">
