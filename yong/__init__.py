@@ -1,8 +1,9 @@
 from flask import Flask
 from yong.models.user_model import User
 from flask_login import LoginManager
-from .config import SECRET_KEY
+import os
 
+SECRET_KEY = os.environ['SECRET_KEY']
 
 def create_app():
     app = Flask(__name__)

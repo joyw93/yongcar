@@ -1,11 +1,13 @@
 from flask import Blueprint, render_template, request, jsonify
 import joblib
-from ..config import BUCKET_PATH
+import os
 import uuid
 from yong.utils import Utils
 from yong.models.car_model import Car
 from werkzeug.utils import secure_filename
 from flask_login import current_user, login_required
+
+BUCKET_PATH = os.environ['BUCKET_PATH']
 
 bp = Blueprint('car', __name__, url_prefix='/car')
 lgbm = joblib.load('model.pkl')
