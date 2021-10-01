@@ -7,13 +7,9 @@ bp = Blueprint('test', __name__, url_prefix='/test')
 
 
 
-
-
-
 @bp.route('/form', methods=['GET', 'POST'])
 def form():
     
-
     return render_template('test_form.html')
 
 
@@ -21,5 +17,4 @@ def form():
 def result():
 
     
-
     return render_template('test_result.html')

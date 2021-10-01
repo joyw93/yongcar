@@ -36,6 +36,7 @@ def detail(question_id):
     return render_template('question/question_detail.html', question=question, answer_list=answer_list)
 
 
+
 @bp.route('/modify/<int:question_id>', methods=['GET', 'POST'])
 @login_required
 def modify(question_id):

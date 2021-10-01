@@ -1,6 +1,6 @@
 import pymysql
-from .config import MYSQL_USER_ID, MYSQL_USER_PW
-MYSQL_HOST = 'localhost'
+from .config import MYSQL_HOST, MYSQL_USER_ID, MYSQL_USER_PW
+
 MYSQL_CONN = pymysql.connect(
     host=MYSQL_HOST,
     port=3306,

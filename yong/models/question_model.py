@@ -46,7 +46,7 @@ class Question:
         sql = """SELECT question_id, title, content, user_name, time
                  FROM question_table q 
                  JOIN user_table u ON q.user_id = u.user_id 
-                 ORDER BY question_id;"""
+                 ORDER BY question_id DESC;"""
         db_cursor.execute(sql)
         question_list = db_cursor.fetchall()
         return question_list

@@ -31,8 +31,8 @@ class Utils:
 
 
     @staticmethod
-    def handle_upload_img(f): # f = 파일명
-        data = open('C:/Users/joyongwon/Desktop/'+f+'.jpg', 'rb')
+    def upload_img(img_uid,file): # f = 파일명
+        key = 'myflask/images/'+img_uid
         # '로컬의 해당파일경로'+ 파일명 + 확장자
         s3 = boto3.resource(
             's3',
@@ -41,4 +41,4 @@ class Utils:
             config=Config(signature_version='s3v4')
         )
         s3.Bucket(BUCKET_NAME).put_object(
-            Key=f, Body=data, ContentType='image/jpg')
+            Key=key, Body=file, ContentType='image/jpg')

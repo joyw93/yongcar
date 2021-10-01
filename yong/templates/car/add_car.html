@@ -2,34 +2,9 @@
 {% block content %}
 
 
-{% if car %}
+<div class="row">
 
-
-
-<div class="col-5 container my-3">
-<h5 class="my-3 border-bottom pb-2">가격 및 상세정보 입력</h5>
-    <form method="post" class="post-form" action="{{ url_for('car.register', car=car) }}">
-
-    <div class="input-group">
-      <input required="required p-2" onkeyup="inputNumberFormat(this)" name="price" id="price" type="text" class="form-control" placeholder="가격" aria-describedby="basic-addon2">
-      <span class="input-group-text p-2" id="basic-addon2">만원</span>
-    </div>
-
-
-        <div class="form-group">
-            <label for="content">상세 정보</label>
-            <textarea class="form-control" name="content" id="content" rows="10"></textarea>
-        </div>
-        <button type="submit" class="btn btn-primary">등록하기</button>
-    </form>
-</div>
-
-
-
-{% else %}
-
-
-<form class="col-5 d-grid gap-2" method="POST" action="{{ url_for('car.create') }}"> <!-- note action -->
+<form enctype="multipart/form-data" class="col-5 d-grid gap-2" method="POST" action="{{ url_for('car.create') }}"> <!-- note action -->
    
 
     <select required="required" class="form-select p-2" id="manufact" name="manufact" >
@@ -153,13 +128,27 @@
     </select>
 
 
-    <button type="submit" class="btn btn-primary p-3">다음단계</button>
+    <div class="input-group">
+          <input required="required p-2" onkeyup="inputNumberFormat(this)" name="price" id="price" type="text" class="form-control" placeholder="가격" aria-describedby="basic-addon2">
+          <span class="input-group-text p-2" id="basic-addon2">만원</span>
+    </div>
+
+
+    <div class="form-group">
+          <label for="comment">상세 정보</label>
+          <textarea class="form-control" name="comment" id="comment" rows="10"></textarea>
+    </div>
+
+    <input type = 'file' name = 'file' />
+          
+          <button type="submit" class="p-3 btn btn-primary">등록하기</button>
+    
   </form>
 
 
 
+</div>
 
-{% endif %}
 <script>
 
   let manu_select = document.getElementById('manufact');

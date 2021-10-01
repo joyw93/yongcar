@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
+<div class="row">
+
+
+    <div class="col-5">  
+        <img src={{car.img_url}} class="img-fluid">
+    </div>
+
+    
+
+    <div class="col-6">  
+        <h1 class="fw-bold">{{car.manufact}} {{car.model}} <span class="text-muted">차량 정보입니다.</span></h1>
+        <p class="text-muted">{{car.age}}년식 | {{car.odo}}km | {{car.fuel}}</p>
+        <h2 class="fw-bold">판매가격 <strong class="text-primary">{{car.price}}만원</strong></h2>
+        <hr class="my-2">
+        <h4>{{car.comment}}</h4>
+    </div>
+
+
+
+
+
+
+
+
+
+
+{% endblock %}
