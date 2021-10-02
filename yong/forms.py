@@ -20,7 +20,7 @@ class LoginForm(FlaskForm):
     email = StringField("이메일",
                         validators=[DataRequired('메일주소를 입력하세요.'), Email('이메일 형식이 아닙니다.')])
     pw = PasswordField("비밀번호",
-                       validators=[DataRequired('비밀번호를 입력하세요.'), Length(min=4, max=30, message='비밀번호 형식이 적절하지 않습니다.')])
+                       validators=[DataRequired('비밀번호를 입력하세요.')])
     submit = SubmitField("로그인")
 
 

@@ -1,6 +1,10 @@
 <nav class="navbar navbar-expand-sm navbar-dark bg-dark border-bottom ">
   <div class="container-fluid">
-    <a class="navbar-brand" href="{{ url_for('main.home') }}">Yong</a>
+    <a class="navbar-brand" href="{{ url_for('main.home') }}">
+    
+      <img src="/static/brand/logo.svg" alt="" width="50" height="40">
+    
+    </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -54,8 +58,8 @@
       </ul>
 
        <div class="text-end">
-          <button type="button" onclick="location.href='{{url_for('auth.login')}}'" class="btn-sm btn btn-outline-light me-2" >로그인</button>
-          <button type="button" onclick="location.href='{{url_for('auth.register')}}'" class="btn-sm btn btn-primary">회원가입</button>
+          <button type="button" onclick="location.href='{{url_for('auth.login')}}'" class="btn-sm btn btn-primary me-2" >로그인</button>
+          <button type="button" onclick="location.href='{{url_for('auth.register')}}'" class="btn-sm btn btn-outline-light">회원가입</button>
        </div>
 
 
