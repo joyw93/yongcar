@@ -8,7 +8,7 @@
         {{ form.hidden_tag() }}
         {% for field, errors in form.errors.items() %}
         <div class="alert alert-danger" role="alert">
-            <strong>{{ form[field].label }}</strong>: {{ ', '.join(errors) }}
+            {{ ', '.join(errors) }}
         </div>
         {% endfor %}
 
