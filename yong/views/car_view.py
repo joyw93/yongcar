@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, jsonify
+from flask import Blueprint, render_template, request, jsonify, flash
 import joblib
 from ..config import BUCKET_PATH
 import uuid
@@ -56,15 +56,16 @@ def create():
         comment = request.form['comment']
         user_id = current_user.user_id
         file = request.files['file']
-
-        img_uid = uuid.uuid4().hex
-        img_url = BUCKET_PATH + img_uid
-        Utils.upload_img(img_uid, file)
-        
-        Car.create(user_id,manufact, model,age,odo,fuel,color,price,comment,img_url)
-        car_list = Car.get_list()
-
-        return render_template('car/car_list.html',car_list=car_list)       
+        if file and Utils.check_allowed_file(file.filename):
+            img_uid = uuid.uuid4().hex 
+            img_url = BUCKET_PATH + img_uid
+            Utils.upload_img(img_uid, file)         
+            Car.create(user_id,manufact, model,age,odo,fuel,color,price,comment,img_url)
+            car_list = Car.get_list()
+            return render_template('car/car_list.html',car_list=car_list)       
+        else: 
+            flash('이미지 파일만 업로드 가능합니다.(jpg, jpeg, png)')
+            return render_template('car/add_car.html')
     return render_template('car/add_car.html')
 
 

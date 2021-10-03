@@ -2,22 +2,38 @@
 {% block content %}
 
  
-  
+{% if current_user.is_authenticated %}
+<div class="px-4 py-5 my-5 text-center">
 
-
-  
-
-  <div class="px-4 py-5 my-5 text-center">
-
-    <h1 class="p-3 display-5 fw-bold">환영합니다!</h1>
-    <div class="col-lg-6 mx-auto">
-      <p class="p-2 lead mb-4">중고차 시세조회, 허위매물예측, 그리고 자유게시판을 이용할 수 있는 사이트입니다.</p>
-      <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-        <button type="button" onclick="location.href='{{url_for('car.predict')}}'" class="btn btn-primary btn-lg px-4 gap-3">시세조회</button>
-        <button type="button" onclick="location.href='{{url_for('question._list')}}'" class="btn btn-outline-secondary btn-lg px-4">게시판</button>
-      </div>
+  <h1 class="p-3 display-5 fw-bold">환영합니다 {{current_user.user_name}}님!</h1>
+  <div class="col-lg-6 mx-auto">
+    <p class="p-2 lead mb-4">중고차 시세조회, 매물검색, 그리고 자유게시판을 이용할 수 있는 사이트입니다.</p>
+    <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+      <button type="button" onclick="location.href='{{url_for('car.predict')}}'" class="btn btn-primary btn-lg px-4 gap-3">시세조회</button>
+      <button type="button" onclick="location.href='{{url_for('question._list')}}'" class="btn btn-outline-secondary btn-lg px-4">게시판</button>
     </div>
   </div>
+</div>
+
+
+
+{% else %}
+
+<div class="px-4 py-5 my-5 text-center">
+
+  <h1 class="p-3 display-5 fw-bold">환영합니다!</h1>
+  <div class="col-lg-6 mx-auto">
+    <p class="p-2 lead mb-4">중고차 시세조회, 매물검색, 그리고 자유게시판을 이용할 수 있는 사이트입니다.</p>
+    <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+      <button type="button" onclick="location.href='{{url_for('car.predict')}}'" class="btn btn-primary btn-lg px-4 gap-3">시세조회</button>
+      <button type="button" onclick="location.href='{{url_for('question._list')}}'" class="btn btn-outline-secondary btn-lg px-4">게시판</button>
+    </div>
+  </div>
+</div>
+
+
+{% endif %}
+
 
 
     

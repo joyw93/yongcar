@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="ko">
   <head>
     <meta charset="utf-8">
 
@@ -36,11 +36,13 @@
     {{ form.hidden_tag() }}
 
 
-
+  <a href="{{ url_for('main.home') }}">
     <img class="mb-4" src="/static/brand/logo.png" alt="" width="200" height="200">
-        {% for field, errors in form.errors.items() %}
+  </a>      
+
+      {% for field, errors in form.errors.items() %}
         <div class="alert alert-danger" role="alert">
-            <strong>{{ form[field].label }}</strong>: {{ ', '.join(errors) }}
+            {{ ', '.join(errors) }}
         </div>
         {% endfor %}
 

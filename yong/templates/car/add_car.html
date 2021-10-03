@@ -1,6 +1,15 @@
 {% extends 'base.html' %}
 {% block content %}
 
+{% with messages = get_flashed_messages() %}
+ {% if messages %}
+  <script>
+   alert("{{messages[-1]}}")
+  </script>
+  {% endif %}
+{% endwith %}
+
+
 
 <div class="row">
 
@@ -139,9 +148,16 @@
           <textarea class="form-control" name="comment" id="comment" rows="10"></textarea>
     </div>
 
-    <input type = 'file' name = 'file' />
+    
+      <label for="comment">사진 등록</label>
+      <div class="input-group mb-3">
+        <input type="file" name = 'file' class="form-control" accept="image/png, image/jpeg" >
+      </div>
+  
+
+    
           
-          <button type="submit" class="p-3 btn btn-primary">등록하기</button>
+    <button type="submit" class="p-3 btn btn-primary">등록하기</button>
     
   </form>
 

@@ -42,3 +42,9 @@ class Utils:
         )
         s3.Bucket(BUCKET_NAME).put_object(
             Key=key, Body=file, ContentType='image/jpg')
+
+    @staticmethod
+    def check_allowed_file(filename):
+        ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
+        return '.' in filename and \
+            filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
