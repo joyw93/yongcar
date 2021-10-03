@@ -22,6 +22,11 @@ class Car:
     def get_id(self):
         return str(self.car_id)    
 
+    def get_user_id(self):
+        return str(self.user_id)       
+
+    def get_img_url(self):
+        return str(self.img_url)
 
     @staticmethod
     def create(user_id, manufact, model, age, odo, fuel, color, price, comment, img_url):
@@ -70,6 +75,12 @@ class Car:
         car_list = db_cursor.fetchall()
         return car_list
 
-
+    @staticmethod
+    def delete(car_id):
+        mysql_db = conn_mysqldb()
+        db_cursor = mysql_db.cursor()
+        sql = "DELETE FROM car_table WHERE car_id = '%s';" % str(car_id)
+        db_cursor.execute(sql)
+        mysql_db.commit()
 
     

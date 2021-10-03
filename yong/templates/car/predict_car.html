@@ -137,8 +137,8 @@
   <div class="col-7 m-5">  
       <h1 class="fw-bold">{{manufact}} {{model}} <span class="text-muted">차량 정보입니다.</span></h1>
       <img src="/static/car_image/{{manufact}}_{{model}}.jpg" alt="My Image" width="500" height="300">
-      <p class="text-muted">{{age}}년식 | {{odo}}km | {{fuel}}</p>
-      <h2 class="fw-bold">해당 매물은 <strong class="text-primary">{{price}}만원</strong>으로 예측 됩니다.</h2>
+      <p class="text-muted">{{age}}년식 | {{'{:,}'.format(odo)}}km | {{fuel}}</p>
+      <h2 class="fw-bold">해당 매물은 <strong class="text-primary">{{'{:,}'.format(price)}}만원</strong>으로 예측 됩니다.</h2>
   </div>
 
 

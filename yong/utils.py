@@ -3,6 +3,7 @@ import numpy as np
 from .config import ACCESS_KEY_ID, ACCESS_SECRET_KEY, BUCKET_NAME
 import boto3
 from botocore.client import Config
+
 import locale
 locale.setlocale(locale.LC_ALL, '')
 
@@ -31,9 +32,8 @@ class Utils:
 
 
     @staticmethod
-    def upload_img(img_uid,file): # f = 파일명
-        key = 'myflask/images/'+img_uid
-        # '로컬의 해당파일경로'+ 파일명 + 확장자
+    def upload_img(img_uid, file): 
+        key = 'myflask/images/'+img_uid     
         s3 = boto3.resource(
             's3',
             aws_access_key_id=ACCESS_KEY_ID,
@@ -42,6 +42,17 @@ class Utils:
         )
         s3.Bucket(BUCKET_NAME).put_object(
             Key=key, Body=file, ContentType='image/jpg')
+
+    @staticmethod
+    def delete_img(img_uid):
+        key = 'myflask/images/'+img_uid
+        s3 = boto3.client('s3',
+                        aws_access_key_id=ACCESS_KEY_ID,
+                        aws_secret_access_key=ACCESS_SECRET_KEY,
+                        config=Config(signature_version='s3v4'))
+        s3.delete_object(Bucket=BUCKET_NAME, Key=key)
+
+
 
     @staticmethod
     def check_allowed_file(filename):

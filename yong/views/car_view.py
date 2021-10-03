@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, jsonify, flash
+from flask import Blueprint, render_template, request, jsonify, flash, url_for, redirect
 import joblib
 from ..config import BUCKET_PATH
 import uuid
@@ -15,7 +15,7 @@ lgbm = joblib.load('model.pkl')
 @bp.route('/predict', methods=['GET','POST'])
 def predict():
     
-    # 리팩토링 필요 -> class로 구현
+   
     if request.method =='POST':
         manufact = request.form['manufact']
         model = request.form['model']
@@ -24,8 +24,7 @@ def predict():
         fuel = request.form['fuel']
         color = request.form['color']
         price = Utils.predict_price(lgbm, model, age, odo, fuel, color)
-        odo = format(odo, ',')
-        price = format(price, ',')
+        
         return render_template('car/predict_car.html',manufact=manufact, model=model, age=age, odo=odo, fuel=fuel, price=price)
         
 
@@ -56,15 +55,18 @@ def create():
         comment = request.form['comment']
         user_id = current_user.user_id
         file = request.files['file']
+        
         if file and Utils.check_allowed_file(file.filename):
             img_uid = uuid.uuid4().hex 
             img_url = BUCKET_PATH + img_uid
             Utils.upload_img(img_uid, file)         
             Car.create(user_id,manufact, model,age,odo,fuel,color,price,comment,img_url)
-            car_list = Car.get_list()
-            return render_template('car/car_list.html',car_list=car_list)       
+            
+            return redirect(url_for('car._list'))       
+        
         else: 
             flash('이미지 파일만 업로드 가능합니다.(jpg, jpeg, png)')
+            
             return render_template('car/add_car.html')
     return render_template('car/add_car.html')
 
@@ -74,3 +76,14 @@ def create():
 def detail(car_id):
     car = Car.get(car_id)
     return render_template('car/car_detail.html',car=car)
+
+
+
+@bp.route('/delete/<int:car_id>')
+@login_required
+def delete(car_id):
+    car = Car.get(car_id)
+    img_uid = car.get_img_url().replace(BUCKET_PATH, '')
+    Utils.delete_img(img_uid)
+    Car.delete(car_id)   
+    return redirect(url_for('car._list'))
