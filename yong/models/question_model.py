@@ -1,4 +1,5 @@
 from datetime import time
+
 import pymysql.cursors
 from yong.mysql import conn_mysqldb
 from datetime import datetime
@@ -15,6 +16,16 @@ class Question:
 
     def get_id(self):
         return str(self.question_id)
+
+
+    @staticmethod
+    def get_size():
+        mysql_db = conn_mysqldb()
+        db_cursor = mysql_db.cursor()
+        sql = "SELECT COUNT(*) FROM question_table ;"
+        db_cursor.execute(sql)
+        question_size = db_cursor.fetchone()
+        return question_size[0]
 
     @staticmethod
     def create(user_id, title, content):

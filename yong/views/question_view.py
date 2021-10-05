@@ -27,7 +27,6 @@ def create():
 def _list():
         
     question_list = Question.get_list()
-    question_list = Question.get_page(0,5)
     return render_template('question/question_list.html', question_list=question_list)
 
 
