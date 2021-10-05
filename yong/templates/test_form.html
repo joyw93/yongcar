@@ -1,14 +1,63 @@
 {% extends "base.html" %}
 {% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}">
+<div class="container my-3">
+    <table class="table">
+        <thead>
+        <tr class="thead-dark">
+            <th>번호</th>
+            <th>제목</th>
+            <th>작성자</th>
+            <th>작성일</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% if question_list %}
+        {% for question in question_list %}
+        <tr>
+            <td>{{ loop.index }}</td>
+            <td>
+                <a href="{{ url_for('question.detail', question_id=question['question_id']) }}">{{ question["title"]}}</a>
+            </td>
+
+            <td>
+                {{ question["user_name"]}}
+            </td>
+
+            <td>
+                {{ question["time"]|datetime}}
+            </td>
+        </tr>
+        {% endfor %}
+        {% else %}
+        <tr>
+            <td colspan="3">질문이 없습니다.</td>
+        </tr>
+        {% endif %}
+        </tbody>
+    </table>
+     <a href="{{ url_for('question.create') }}" class="btn btn-primary">질문 등록하기</a>
+</div>
 
 
 
 
-<form action = "{{ url_for('test.form')}}" method = 'POST' enctype = 'multipart/form-data'>
-  <input type = 'file' name = 'file' />
-  <input type = 'submit'/>
-</form>
 
-<img src="https://yongket.s3.ap-northeast-2.amazonaws.com/myflask/images/3">
-    
+
+
+<nav aria-label="Page navigation example">
+  <ul class="pagination justify-content-center">
+    <li class="page-item"><a class="page-link" href="#">이전</a></li>
+    {% for p in range(page_count) %}
+    <li class="page-item"><a class="page-link" href="{{ url_for('test.result', page=p)}}")>{{p+1}}</a></li>
+    {% endfor %}
+    <li class="page-item"><a class="page-link" href="#">다음</a></li>
+  </ul>
+</nav>
+
+
+
+
+
+
 {% endblock %}
