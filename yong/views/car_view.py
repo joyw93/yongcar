@@ -36,6 +36,7 @@ def predict():
 @bp.route('/list', methods=['GET','POST'])
 def _list():
     car_list = Car.get_list()
+    
     return render_template('car/car_list.html',car_list=car_list)
 
 

@@ -46,10 +46,27 @@ class Question:
         sql = """SELECT question_id, title, content, user_name, time
                  FROM question_table q 
                  JOIN user_table u ON q.user_id = u.user_id 
-                 ORDER BY question_id DESC;"""
+                 ORDER BY question_id DESC
+                 ;"""
         db_cursor.execute(sql)
         question_list = db_cursor.fetchall()
         return question_list
+
+    @staticmethod
+    def get_page(page,range):
+        mysql_db = conn_mysqldb()
+        db_cursor = mysql_db.cursor(pymysql.cursors.DictCursor)
+        sql = """SELECT question_id, title, content, user_name, time
+                 FROM question_table q 
+                 JOIN user_table u ON q.user_id = u.user_id 
+                 ORDER BY question_id DESC
+                 LIMIT %s,%s ;""" % (str(page), str(range))
+        db_cursor.execute(sql)
+        question_list = db_cursor.fetchall()
+        return question_list
+
+
+
 
     @staticmethod
     def delete(question_id):
