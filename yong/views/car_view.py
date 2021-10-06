@@ -4,6 +4,7 @@ from ..config import BUCKET_PATH
 import uuid
 from yong.utils import Utils
 from yong.models.car_model import Car
+from yong.models.pagination_model import Pagination
 from werkzeug.utils import secure_filename
 from flask_login import current_user, login_required
 
@@ -31,13 +32,30 @@ def predict():
     return render_template('car/predict_car.html')
 
 
+@bp.route('/list/', defaults={'current_page': 1})
+@bp.route('/list/<int:current_page>', methods=['GET','POST'])
+def _list(current_page):
+    list_size = Car.get_size()
+    page_size=9
+    current_page_count = 3
+    pagination = Pagination(list_size,page_size,current_page_count)
 
-
-@bp.route('/list', methods=['GET','POST'])
-def _list():
-    car_list = Car.get_list()
+    page_count = pagination.page_count
+    if current_page>page_count:
+        current_page=page_count
     
-    return render_template('car/car_list.html',car_list=car_list)
+    elif current_page<=0:
+        current_page=1
+    
+    car_list = Car.get_page((current_page-1)*page_size,page_size)
+
+    start_page = int((current_page-1)/current_page_count)*current_page_count+1
+    if (page_count-start_page)<current_page_count:
+        page_length = (page_count-start_page)+1
+    else:
+        page_length = current_page_count
+    
+    return render_template('car/car_list.html',car_list=car_list, start_page=start_page, page_length=page_length, current_page=current_page)
 
 
 
@@ -56,12 +74,14 @@ def create():
         comment = request.form['comment']
         user_id = current_user.user_id
         file = request.files['file']
+
         
         if file and Utils.check_allowed_file(file.filename):
             img_uid = uuid.uuid4().hex 
             img_url = BUCKET_PATH + img_uid
-            Utils.upload_img(img_uid, file)         
+                    
             Car.create(user_id,manufact, model,age,odo,fuel,color,price,comment,img_url)
+            Utils.upload_img(img_uid, file) 
             
             return redirect(url_for('car._list'))       
         

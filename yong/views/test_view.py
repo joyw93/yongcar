@@ -29,10 +29,11 @@ def result(page):
     question_size = Question.get_size()
     page_count = math.ceil(question_size/list_size)
     question_list = Question.get_page(page*list_size,list_size)    
+    question_list = Question.get_list()
     
-    if (page%3 == 0) & (page>0):
-        pagination.temp = pagination.temp+3
-        return render_template('test_result.html',question_list=question_list, page_count=page_count, page=page, temp=pagination.temp)
+    # if (page%3 == 0) & (page>0):
+    #     pagination.temp = pagination.temp+3
+    #     return render_template('test_result.html',question_list=question_list, page_count=page_count, page=page, temp=pagination.temp)
    
     
     return render_template('test_result.html',question_list=question_list, page_count=page_count, page=page, temp=pagination.temp)

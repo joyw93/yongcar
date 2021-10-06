@@ -15,7 +15,7 @@
         {% if question_list %}
         {% for question in question_list %}
         <tr>
-            <td>{{ loop.index }}</td>
+            <td>{{ loop.index+(current_page-1)*5 }}</td>
             <td>
                 <a href="{{ url_for('question.detail', question_id=question['question_id']) }}">{{ question["title"]}}</a>
             </td>
@@ -45,11 +45,15 @@
 
 <nav aria-label="Page navigation example">
   <ul class="pagination justify-content-center">
-    <li class="page-item"><a class="page-link" href="#">이전</a></li>
-    <li class="page-item"><a class="page-link" href="#">1</a></li>
-    <li class="page-item"><a class="page-link" href="#">2</a></li>
-    <li class="page-item"><a class="page-link" href="#">3</a></li>
-    <li class="page-item"><a class="page-link" href="#">다음</a></li>
+    <li class="page-item"><a class="page-link" href="{{url_for('question._list', current_page=current_page-1)}}">이전</a></li>
+    {% for page_num in range(start_page,(start_page+page_length)) %}
+    {% if page_num==current_page %}
+    <li class="page-item active"><a class="page-link" href="{{url_for('question._list', current_page=page_num)}}")>{{page_num}}</a></li>
+    {% else %}
+    <li class="page-item"><a class="page-link" href="{{url_for('question._list', current_page=page_num)}}")>{{page_num}}</a></li>
+    {% endif %}
+    {% endfor %}
+    <li class="page-item"><a class="page-link" href="{{url_for('question._list', current_page=current_page+1)}}">다음</a></li>
   </ul>
 </nav>
 

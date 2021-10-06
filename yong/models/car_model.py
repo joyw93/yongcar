@@ -29,6 +29,15 @@ class Car:
         return str(self.img_url)
 
     @staticmethod
+    def get_size():
+        mysql_db = conn_mysqldb()
+        db_cursor = mysql_db.cursor()
+        sql = "SELECT COUNT(*) FROM car_table ;"
+        db_cursor.execute(sql)
+        car_size = db_cursor.fetchone()
+        return car_size[0]
+
+    @staticmethod
     def create(user_id, manufact, model, age, odo, fuel, color, price, comment, img_url):
         mysql_db = conn_mysqldb()
         db_cursor = mysql_db.cursor()
@@ -74,6 +83,22 @@ class Car:
         db_cursor.execute(sql)
         car_list = db_cursor.fetchall()
         return car_list
+
+    @staticmethod
+    def get_page(page,range):
+        mysql_db = conn_mysqldb()
+        db_cursor = mysql_db.cursor(pymysql.cursors.DictCursor)
+        sql = """SELECT *
+                 FROM car_table
+                 ORDER BY car_id DESC
+                 LIMIT %s,%s ;""" % (str(page), str(range))
+        db_cursor.execute(sql)
+        car_list = db_cursor.fetchall()
+        return car_list
+
+
+
+
 
     @staticmethod
     def delete(car_id):
