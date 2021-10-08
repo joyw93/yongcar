@@ -26,10 +26,16 @@ def predict():
         color = request.form['color']
         price = Utils.predict_price(lgbm, model, age, odo, fuel, color)
         
-        return render_template('car/predict_car.html',manufact=manufact, model=model, age=age, odo=odo, fuel=fuel, price=price)
+        price_newcar =int(Utils.predict_price(lgbm, model, 2021, 0, fuel, color)*1.1)
+        price_now = Utils.predict_price(lgbm, model, age, odo, fuel, color)
+        price_1 = Utils.predict_price(lgbm, model, age-1, odo, fuel, color)
+        price_3 = Utils.predict_price(lgbm, model, age-3, odo, fuel, color)
+        price_5 = Utils.predict_price(lgbm, model, age-5, odo, fuel, color)
+        price_list=[price_newcar, price_now, price_1, price_3, price_5]
+        return render_template('car/predict_car.html',manufact=manufact, model=model, age=age, odo=odo, fuel=fuel, price=price, price_list=price_list)
         
-
-    return render_template('car/predict_car.html')
+    price_list=[0,0,0,0,0]
+    return render_template('car/predict_car.html',price_list=price_list)
 
 
 @bp.route('/list/', defaults={'current_page': 1})
@@ -55,7 +61,7 @@ def _list(current_page):
     else:
         page_length = current_page_count
     
-    return render_template('car/car_list.html',car_list=car_list, start_page=start_page, page_length=page_length, current_page=current_page)
+    return render_template('car/car_list.html',list_size=list_size, car_list=car_list, start_page=start_page, page_length=page_length, current_page=current_page)
 
 
 

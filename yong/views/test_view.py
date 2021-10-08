@@ -45,9 +45,13 @@ def form():
     # lgbm.fit(X_train, y_train, eval_set=[(X_test, y_test)], eval_metric='l1', early_stopping_rounds=500)
 
     # joblib.dump(lgbm, 'lgbm_model.pkl')
+    num = 5
+    text = 'test'
+    manufact='제네시스'
+    model='G80'
+    price_list = [500,400,300,200,100,0]
 
-
-    return render_template('test_form.html' )
+    return render_template('test_form.html' ,manufact=manufact, model=model, price_list=price_list)
 
 
 @bp.route('/result')
