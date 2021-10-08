@@ -9,7 +9,7 @@ from werkzeug.utils import secure_filename
 from flask_login import current_user, login_required
 
 bp = Blueprint('car', __name__, url_prefix='/car')
-lgbm = joblib.load('model.pkl')
+lgbm = joblib.load('lgbm_model.pkl')
 
 
 
