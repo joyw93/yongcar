@@ -1,0 +1,301 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+
+<div class="row">
+
+    <div class="col-5" style="width:70%;">
+        <canvas id="myChart"></canvas>      
+    </div>
+
+    <div class="col-5" style="width:70%;">
+        <canvas id="age"></canvas>      
+    </div>
+
+    <div class="col-5" style="width:70%;">
+        <canvas id="odo"></canvas>      
+    </div>
+
+</div>
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+var ctx = document.getElementById('myChart').getContext('2d');
+var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: ['그랜저', '쏘나타', '아반떼',
+                'G70', 'G80',
+                'K3', 'K5', 'K7',
+                'SM3','SM5','SM6','SM7',
+                '티볼리','코란도',
+                '크루즈','말리부',
+                'C클래스','E클래스','S클래스',
+                '3시리즈','5시리즈','7시리즈',
+                'A4','A6','A7',
+                '골프','티구안','파사트'],
+        datasets: [{
+            label: '차종별 데이터 보유량',
+            data: ["{{model_list[0]}}",
+                   "{{model_list[1]}}",
+                   "{{model_list[2]}}",
+                   "{{model_list[3]}}",
+                   "{{model_list[4]}}",
+                   "{{model_list[5]}}",
+                   "{{model_list[6]}}",
+                   "{{model_list[7]}}",
+                   "{{model_list[8]}}",
+                   "{{model_list[9]}}",
+                   "{{model_list[10]}}",
+                   "{{model_list[11]}}",
+                   "{{model_list[12]}}",
+                   "{{model_list[13]}}",
+                   "{{model_list[14]}}",
+                   "{{model_list[15]}}",
+                   "{{model_list[16]}}",
+                   "{{model_list[17]}}",
+                   "{{model_list[18]}}",
+                   "{{model_list[19]}}",
+                   "{{model_list[20]}}",
+                   "{{model_list[21]}}",
+                   "{{model_list[22]}}",
+                   "{{model_list[23]}}",
+                   "{{model_list[24]}}",
+                   "{{model_list[25]}}",
+                   "{{model_list[26]}}",
+                   "{{model_list[27]}}",
+                                        ],
+            backgroundColor:    
+                'rgba(54, 162, 235, 0.2)'         
+            ,
+            borderColor:                
+                'rgba(54, 162, 235, 1)'        
+            ,
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+});
+</script>
+
+
+<script>
+
+  new Chart(document.getElementById("age"), {
+      type: 'line',
+      data: {
+          labels: ['2000',
+                   '2001',
+                   '2002',
+                   '2003',
+                   '2004',
+                   '2005',
+                   '2006',
+                   '2007',
+                   '2008',
+                   '2009',
+                   '2010',
+                   '2011',
+                   '2012',
+                   '2013',
+                   '2014',
+                   '2015',
+                   '2016',
+                   '2017',
+                   '2018',
+                   '2019',
+                   '2020',
+                   '2021'],
+          datasets: [{
+              label: '{{model}} 연식 대비 가격',
+              data: [
+
+                  "{{price_age_list[0]}}",
+                  "{{price_age_list[1]}}",
+                  "{{price_age_list[2]}}",
+                  "{{price_age_list[3]}}",
+                  "{{price_age_list[4]}}",
+                  "{{price_age_list[5]}}",
+                  "{{price_age_list[6]}}",
+                  "{{price_age_list[7]}}",
+                  "{{price_age_list[8]}}",
+                  "{{price_age_list[9]}}",
+                  "{{price_age_list[10]}}",
+                  "{{price_age_list[11]}}",
+                  "{{price_age_list[12]}}",
+                  "{{price_age_list[13]}}",
+                  "{{price_age_list[14]}}",
+                  "{{price_age_list[15]}}",
+                  "{{price_age_list[16]}}",
+                  "{{price_age_list[17]}}",
+                  "{{price_age_list[18]}}",
+                  "{{price_age_list[19]}}",
+                  "{{price_age_list[20]}}",
+                  "{{price_age_list[21]}}"
+          
+              ],
+              borderColor: "rgba(38, 23, 88, 0.7)",
+              backgroundColor: "rgba(38, 23, 88, 0.5)",
+              fill: true,
+              lineTension: 0
+          }]
+      },
+      options: {
+          responsive: true,
+          title: {
+              display: true,
+              text: ''
+          },
+          tooltips: {
+              mode: 'index',
+              intersect: false,
+          },
+          hover: {
+              mode: 'nearest',
+              intersect: true
+          },
+          scales: {
+              xAxes: [{
+                  display: true,
+                  scaleLabel: {
+                      display: true,
+                      labelString: ''
+                  }
+              }],
+              yAxes: [{
+                  display: true,
+                  ticks: {
+                      suggestedMin: 100,
+                  },
+                  scaleLabel: {
+                      display: false,
+                      labelString: '(만원)'
+                  }
+              }]
+          }
+      }
+  });
+  
+  </script>
+
+
+<script>
+
+  new Chart(document.getElementById("odo"), {
+      type: 'line',
+      data: {
+          labels: ['0km',
+                   '10,000km',
+                   '20,000km',
+                   '30,000km',
+                   '40,000km',
+                   '50,000km',
+                   '60,000km',
+                   '70,000km',
+                   '80,000km',
+                   '90,000km',
+                   '100,000km',
+                   '110,000km',
+                   '120,000km',
+                   '130,000km',
+                   '140,000km',
+                   '150,000km'
+                   ],
+          datasets: [{
+              label: '{{model}} 주행거리 대비 가격',
+              data: [
+
+                  "{{price_odo_list[0]}}",
+                  "{{price_odo_list[1]}}",
+                  "{{price_odo_list[2]}}",
+                  "{{price_odo_list[3]}}",
+                  "{{price_odo_list[4]}}",
+                  "{{price_odo_list[5]}}",
+                  "{{price_odo_list[6]}}",
+                  "{{price_odo_list[7]}}",
+                  "{{price_odo_list[8]}}",
+                  "{{price_odo_list[9]}}",
+                  "{{price_odo_list[10]}}",
+                  "{{price_odo_list[11]}}",
+                  "{{price_odo_list[12]}}",
+                  "{{price_odo_list[13]}}",
+                  "{{price_odo_list[14]}}",
+                  "{{price_odo_list[15]}}"
+                  
+          
+              ],
+              borderColor: "rgba(197, 0, 0, 0.7)",
+              backgroundColor: "rgba(197, 0, 0, 0.5)",
+              fill: true,
+              lineTension: 0
+          }]
+      },
+      options: {
+          responsive: true,
+          title: {
+              display: true,
+              text: ''
+          },
+          tooltips: {
+              mode: 'index',
+              intersect: false,
+          },
+          hover: {
+              mode: 'nearest',
+              intersect: true
+          },
+          scales: {
+              xAxes: [{
+                  display: true,
+                  scaleLabel: {
+                      display: true,
+                      labelString: ''
+                  }
+              }],
+              yAxes: [{
+                  display: true,
+                  ticks: {
+                      suggestedMin: 100,
+                  },
+                  scaleLabel: {
+                      display: false,
+                      labelString: '(만원)'
+                  }
+              }]
+          }
+      }
+  });
+  
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% endblock %}

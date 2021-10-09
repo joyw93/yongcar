@@ -17,7 +17,7 @@
         <tr>
             <td>{{ loop.index+(current_page-1)*5 }}</td>
             <td>
-                <a href="{{ url_for('question.detail', question_id=question['question_id']) }}">{{ question["title"]}}</a>
+                <a class="text-dark" href="{{ url_for('question.detail', question_id=question['question_id']) }}">{{ question["title"]}}</a>
             </td>
 
             <td>
