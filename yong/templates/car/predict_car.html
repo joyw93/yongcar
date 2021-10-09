@@ -70,11 +70,19 @@
     
 
     <div class="m-3 border-bottom py-5 border-2">
-        <h1 class="fw-bold">{{manufact}} {{model}} <span class="text-muted">차량 정보입니다.</span></h1>
+        <h1 class="fw-bold">{{manufact}} {{model}} <span class="text-muted">조회 결과입니다.</span></h1>
         <img src="/static/car_image/{{manufact}}_{{model}}.jpg" alt="My Image" width="500" height="300">
         <p class="text-muted">{{age}}년식 | {{'{:,}'.format(odo)}}km | {{fuel}}</p>
         
-        <h2 class="fw-bold">해당 매물은 <strong class="text-primary">{{'{:,}'.format(price)}}만원</strong>으로 예측됩니다.</h2>
+        
+        <p>   
+            <span class="fs-6 ">예측가격 &nbsp </span>
+            <strong class="mb-3 fs-1 text-primary">{{'{:,}'.format(price)}}만원</strong>
+        </p> 
+        <a href="{{url_for('car.report', model=model)}}" class=" icon-link text-muted">
+          상세 정보
+         <svg class="bi" width="1em" height="1em"><use xlink:href="#chevron-right"/></svg>
+    </a>
     </div>
 
     <div class="m-3">
@@ -84,10 +92,7 @@
         <canvas id="canvas"></canvas>      
       </div>
     </div>
-    <a href="{{url_for('car.report', model=model)}}" class="m-3 icon-link text-muted">
-          상세 정보
-      <svg class="bi" width="1em" height="1em"><use xlink:href="#chevron-right"/></svg>
-    </a>
+    
 
 
   {% else %}
@@ -366,7 +371,7 @@
                       suggestedMin: "{{price_list[4]}}",
                   },
                   scaleLabel: {
-                      display: true,
+                      display: false,
                       labelString: '(만원)'
                   }
               }]

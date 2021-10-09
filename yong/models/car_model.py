@@ -1,7 +1,7 @@
 import pymysql.cursors
 from yong.mysql import conn_mysqldb
-
-
+from yong.utils import Utils
+import joblib
 
 class Car:
 
@@ -18,6 +18,7 @@ class Car:
         self.price = price
         self.comment = comment
         self.img_url = img_url
+        self.predicted_price = price = Utils.predict_price(joblib.load('lgbm_model.pkl'), model, age, odo, fuel, color)
 
     def get_id(self):
         return str(self.car_id)    
@@ -38,12 +39,12 @@ class Car:
         return car_size[0]
 
     @staticmethod
-    def create(user_id, manufact, model, age, odo, fuel, color, price, comment, img_url):
+    def create(user_id, manufact, model, age, odo, fuel, color, price, comment, img_url, predicted_price):
         mysql_db = conn_mysqldb()
         db_cursor = mysql_db.cursor()
-        sql = """INSERT INTO car_table (user_id, manufact, model, age, odo, fuel, color, price, comment, img_url)
-                 VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')""" \
-                 % (str(user_id),str(manufact), str(model), str(age), str(odo), str(fuel), str(color), str(price), str(comment), str(img_url))
+        sql = """INSERT INTO car_table (user_id, manufact, model, age, odo, fuel, color, price, comment, img_url, predicted_price)
+                 VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')""" \
+                 % (str(user_id),str(manufact), str(model), str(age), str(odo), str(fuel), str(color), str(price), str(comment), str(img_url), str(predicted_price))
                  
         db_cursor.execute(sql)
         mysql_db.commit()

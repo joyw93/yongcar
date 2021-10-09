@@ -64,8 +64,10 @@
                 <div class="btn-group">
                   <button type="button" onclick="location.href='{{url_for('car.detail', car_id=car['car_id'])}}'" class="btn btn-sm btn-outline-secondary">상세정보</button>                 
                 </div>
-                {% if car.price<=3000 %}
-                <span class="badge bg-danger">허위매물 위험</span>
+                {% if car.price<=car.predicted_price*0.4 %}
+                <span title="해당 매물의 적정 시세는 {{'{:,}'.format(car.predicted_price)}}만원 입니다." data-toggle="tooltip" data-placement="top" class="badge rounded-pill bg-danger">허위매물 위험</span>
+                {% elif (car.price>car.predicted_price*0.4)and(car.price<=car.predicted_price*0.6) %}
+                <span title="해당 매물의 적정 시세는 {{'{:,}'.format(car.predicted_price)}}만원 입니다." data-toggle="tooltip" data-placement="top" class="badge rounded-pill bg-warning">허위매물 주의</span>
                 {% endif %}
               </div>
             </div>
@@ -77,6 +79,9 @@
 
 
  {% endfor %}
+
+
+
  {% else %}
         
           <h1>매물이 없습니다. 매물을 등록 해 주세요</h1>
@@ -104,6 +109,29 @@
 
 
 
+
+
+
+
       
+
+
+
+
+
+
+
+
+
+
+
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+	
+  <script>
+			$(function () {
+				$('[data-toggle="tooltip"]').tooltip()
+			})
+		</script>
 
 {% endblock %}

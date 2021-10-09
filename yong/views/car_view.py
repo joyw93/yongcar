@@ -196,7 +196,7 @@ def _list(current_page):
         current_page=1
     
     car_list = Car.get_page((current_page-1)*page_size,page_size)
-
+    
     start_page = int((current_page-1)/current_page_count)*current_page_count+1
     if (page_count-start_page)<current_page_count:
         page_length = (page_count-start_page)+1
@@ -222,13 +222,13 @@ def create():
         comment = request.form['comment']
         user_id = current_user.user_id
         file = request.files['file']
-
+        predicted_price = Utils.predict_price(lgbm, model, age, odo, fuel, color)
         
         if file and Utils.check_allowed_file(file.filename):
             img_uid = uuid.uuid4().hex 
             img_url = BUCKET_PATH + img_uid
                     
-            Car.create(user_id,manufact, model,age,odo,fuel,color,price,comment,img_url)
+            Car.create(user_id,manufact, model,age,odo,fuel,color,price,comment,img_url,predicted_price)
             Utils.upload_img(img_uid, file) 
             
             return redirect(url_for('car._list'))       
