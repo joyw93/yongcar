@@ -69,19 +69,23 @@
     
     
 
-    <div class="m-3">  
+    <div class="m-3 border-bottom py-5 border-2">
         <h1 class="fw-bold">{{manufact}} {{model}} <span class="text-muted">차량 정보입니다.</span></h1>
         <img src="/static/car_image/{{manufact}}_{{model}}.jpg" alt="My Image" width="500" height="300">
         <p class="text-muted">{{age}}년식 | {{'{:,}'.format(odo)}}km | {{fuel}}</p>
-        <h2 class="fw-bold">해당 매물은 <strong class="text-primary">{{'{:,}'.format(price)}}만원</strong>으로 예측 됩니다.</h2>
+        
+        <h2 class="fw-bold">해당 매물은 <strong class="text-primary">{{'{:,}'.format(price)}}만원</strong>으로 예측됩니다.</h2>
     </div>
-  
-    <div style="width:60%;">
-      <canvas id="canvas"></canvas>      
+
+    <div class="m-3">
+      <h6 class="fw-bold my-5">차량 잔존가치</h6>
+      
+      <div style="width:60%;">
+        <canvas id="canvas"></canvas>      
+      </div>
     </div>
-    
-    <a href="{{url_for('car.report', model=model)}}" class="icon-link text-muted">
-          데이터 정보
+    <a href="{{url_for('car.report', model=model)}}" class="m-3 icon-link text-muted">
+          상세 정보
       <svg class="bi" width="1em" height="1em"><use xlink:href="#chevron-right"/></svg>
     </a>
 
@@ -327,11 +331,15 @@
           }]
       },
       options: {
-          
+          legend: {
+            display: false
+          },
+
           responsive: true,
           title: {
-              display: true,
-              text: ''
+              display: false,
+                    
+              text: '잔존가치'
           },
           tooltips: {
               mode: 'index',
@@ -347,6 +355,9 @@
                   scaleLabel: {
                       display: true,
                       labelString: ''
+                  },
+                  gridLines: {
+                  display: false
                   }
               }],
               yAxes: [{
@@ -355,7 +366,7 @@
                       suggestedMin: "{{price_list[4]}}",
                   },
                   scaleLabel: {
-                      display: false,
+                      display: true,
                       labelString: '(만원)'
                   }
               }]

@@ -27,7 +27,7 @@
 
 
   <section class="py-5 text-center container">
-    <button id="index" type="button" class="btn btn-dark" disabled data-bs-toggle="button" autocomplete="off">{{list_size}} 대의 차량이 있습니다.</button>
+    <button id="index" type="button" class="btn btn-dark" disabled data-bs-toggle="button" autocomplete="off">총 {{list_size}} 대의 차량이 있습니다.</button>
     <div class="row py-lg-5">
       <div class="col-lg-6 col-md-8 mx-auto">
         <h1 class="fw-light">매물을 등록하세요!</h1>
@@ -51,12 +51,12 @@
   
         <div class="col">
           <div class="card shadow-sm">
-            <img src={{car['img_url']}} class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns={{"http://www.w3.org/2000/svg"}} role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/></img>
+            <img src="{{car.img_url}}" class="bd-placeholder-img card-img-top" width="100%" height="225" role="img"  preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#55595c"/></img>
 
             <div class="card-body">
-              <p class="card-text fw-bold">{{car['manufact']}} {{car['model']}}</p>
-              <p class="card-text text-muted">{{car['age']}}년식 | {{'{:,}'.format(car['odo'])}}km | {{car['fuel']}}</p>
-              <p class="card-text text-primary">{{'{:,}'.format(car['price'])}}만원</p>
+              <p class="card-text fw-bold">{{car.manufact}} {{car.model}}</p>
+              <p class="card-text text-muted">{{car.age}}년식 | {{'{:,}'.format(car.odo)}}km | {{car.fuel}}</p>
+              <p class="card-text text-primary">{{'{:,}'.format(car.price)}}만원</p>
               
 
 
@@ -64,7 +64,9 @@
                 <div class="btn-group">
                   <button type="button" onclick="location.href='{{url_for('car.detail', car_id=car['car_id'])}}'" class="btn btn-sm btn-outline-secondary">상세정보</button>                 
                 </div>
-                <small class="text-muted">1분 전</small>
+                {% if car.price<=3000 %}
+                <span class="badge bg-danger">허위매물 위험</span>
+                {% endif %}
               </div>
             </div>
           </div>

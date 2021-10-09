@@ -4,7 +4,7 @@
  
 {% if current_user.is_authenticated %}
 <div class="px-4 py-5 my-5 text-center">
-
+  <img class="d-block mx-auto mb-4" src="/static/brand/logo.png" alt="" width="150" height="150">
   <h1 class="p-3 display-5 fw-bold">환영합니다 {{current_user.user_name}}님!</h1>
   <div class="col-lg-6 mx-auto">
     <p class="p-2 lead mb-4">중고차 시세조회, 매물검색, 그리고 자유게시판을 이용할 수 있는 사이트입니다.</p>
@@ -20,7 +20,7 @@
 {% else %}
 
 <div class="px-4 py-5 my-5 text-center">
-
+  <img class="d-block mx-auto mb-4" src="/static/brand/logo.png" alt="" width="150" height="150">
   <h1 class="p-3 display-5 fw-bold">환영합니다!</h1>
   <div class="col-lg-6 mx-auto">
     <p class="p-2 lead mb-4">중고차 시세조회, 매물검색, 그리고 자유게시판을 이용할 수 있는 사이트입니다.</p>

@@ -77,5 +77,5 @@ def modify(question_id):
 @login_required
 def delete(question_id):
     Question.delete(question_id)
-    return redirect(url_for('main.home'))
+    return redirect(url_for('question._list'))
 
