@@ -3,7 +3,7 @@
 
 
 
-  {% if price %}
+{% if car %}
   
 <div class="row">
 
@@ -12,15 +12,15 @@
     <div class="row">
 
 
-      <div class="border-bottom py-5 border-2 container col-10">
-          <h1 class="fw-bold">{{manufact}} {{model}} <span class="text-muted">조회 결과입니다.</span></h1>
-          <img src="/static/car_image/{{manufact}}_{{model}}.jpg" alt="My Image" width="450" height="300">
-          <p class="text-muted">{{age}}년식 | {{'{:,}'.format(odo)}}km | {{fuel}}</p>
+      <div class="border-bottom py-5 border-2 container col-11">
+          <h1 class="fw-bold">{{car.manufact}} {{car.model}} <span class="text-muted">조회 결과입니다.</span></h1>
+          <img src="/static/car_image/{{car.manufact}}_{{car.model}}.jpg" alt="My Image" width="450" height="300">
+          <p class="text-muted">{{car.age}}년식 | {{'{:,}'.format(car.odo)}}km | {{car.fuel}}</p>
           
           
           <p>   
               <span class="fs-6 ">예측가격 &nbsp </span>
-              <strong class="mb-3 fs-1 text-primary">{{'{:,}'.format(price)}}만원</strong>
+              <strong class="mb-3 fs-1 text-primary">{{'{:,}'.format(car.price)}}만원</strong>
           </p> 
 
       
@@ -30,20 +30,20 @@
 
     <div class="m-5">
       <h6 class="fw-bold py-3">차량 잔존가치</h6>       
-      <div style="width:70%;">
+      <div style="width:80%;">
       <canvas id="price"></canvas>      
       </div>
 
       <h6 class="fw-bold py-3">{{age}}년식 차량 주행거리</h6>       
-      <div style="width:70%;">
+      <div style="width:80%;">
       <canvas id="odo"></canvas>      
       </div>
-      {% if odo>mean_odo %}
-      <h5 class="text-muted py-3">주행거리가 연식에 비해 <strong class="text-dark">많은편</strong>입니다.</h5>
-      {% elif odo<mean_odo %}
-      <h5 class="text-muted py-3">주행거리가 연식에 비해 <strong class="text-dark">적은편</strong>입니다.</h5>
+      {% if car.odo>mean_model_odo %}
+      <h5 class="text-muted py-3">조회된 차량은 연식에 비해 주행거리가 <strong class="text-dark">많은편</strong>입니다.</h5>
+      {% elif car.odo<mean_model_odo %}
+      <h5 class="text-muted py-3">조회된 차량은 연식에 비해 주행거리가 <strong class="text-dark">적은편</strong>입니다.</h5>
       {% endif %}  
-      <a href="{{url_for('car.report', model=model)}}" class="py-5 icon-link text-primary">
+      <a href="{{url_for('car.report', model=car.model)}}" class="py-5 icon-link text-primary">
         결과 상세분석 
       <svg class="bi" width="1em" height="1em"><use xlink:href="#chevron-right"/></svg>
       </a>
@@ -55,7 +55,7 @@
 
 
 
-    <div class="position-sticky py-5 h-75 col-2" style="top: 0.5rem;"> 
+    <div class="position-sticky py-5 h-75 col-2" style="top: 10rem;"> 
       <form class="d-grid gap-1" method="POST" action="{{ url_for('car.predict') }}"> <!-- note action -->
 
         <button id="index" type="button" class="btn btn-dark" disabled data-bs-toggle="button" autocomplete="off">차량 정보 입력</button>
@@ -341,11 +341,6 @@
 
 
 
-
-
-
-
-
   <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
     <symbol id="bootstrap" viewBox="0 0 118 94">
       <title>Bootstrap</title>
@@ -543,19 +538,21 @@
   var myChart = new Chart(ctx, {
       type: 'bar',
       data: {
-          labels: ['전체평균', '조회차량'],
+          labels: ['전체평균', "{{model}}평균", '조회차량'],
           datasets: [{
               label: '',
-              data: ["{{mean_odo}}","{{odo}}"],
+              data: ["{{mean_odo}}","{{mean_model_odo}}","{{odo}}"],
               backgroundColor:    
                   ['rgba(235, 54, 54, 0.2)',
+                   'rgba(235, 54, 54, 0.2)',
                    'rgba(235, 54, 54, 0.8)' ]         
               ,
               borderColor:                
                   ['rgba(235, 54, 54, 1)',
+                  'rgba(235, 54, 54, 1)',
                   'rgba(235, 54, 54, 1)']     
               ,
-              borderWidth: 0.5
+              borderWidth: 1
           }]
       },
       options: {

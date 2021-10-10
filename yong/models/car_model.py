@@ -1,7 +1,7 @@
 import pymysql.cursors
 from yong.mysql import conn_mysqldb
 from yong.utils import Utils
-import joblib
+
 
 class Car:
 
@@ -18,7 +18,8 @@ class Car:
         self.price = price
         self.comment = comment
         self.img_url = img_url
-        self.predicted_price = price = Utils.predict_price(joblib.load('lgbm_model.pkl'), model, age, odo, fuel, color)
+        self.predicted_price = price = Utils.predict_price(model, age, odo, fuel, color)
+
 
     def get_id(self):
         return str(self.car_id)    
@@ -29,6 +30,7 @@ class Car:
     def get_img_url(self):
         return str(self.img_url)
 
+
     @staticmethod
     def get_size():
         mysql_db = conn_mysqldb()
@@ -37,6 +39,7 @@ class Car:
         db_cursor.execute(sql)
         car_size = db_cursor.fetchone()
         return car_size[0]
+
 
     @staticmethod
     def create(user_id, manufact, model, age, odo, fuel, color, price, comment, img_url, predicted_price):
@@ -85,6 +88,7 @@ class Car:
         car_list = db_cursor.fetchall()
         return car_list
 
+
     @staticmethod
     def get_page(page,range):
         mysql_db = conn_mysqldb()
@@ -96,8 +100,6 @@ class Car:
         db_cursor.execute(sql)
         car_list = db_cursor.fetchall()
         return car_list
-
-
 
 
 

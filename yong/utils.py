@@ -2,16 +2,18 @@ import pandas as pd
 import numpy as np
 from .config import ACCESS_KEY_ID, ACCESS_SECRET_KEY, BUCKET_NAME
 import boto3
+import joblib
 from botocore.client import Config
-
 import locale
 locale.setlocale(locale.LC_ALL, '')
+
 
 
 class Utils:
 
     @staticmethod
-    def predict_price(ml_model, model, age, odo, fuel, color):
+    def predict_price(model, age, odo, fuel, color):
+        lgbm = joblib.load('lgbm_model.pkl')
         data = pd.DataFrame({'model': [model],
                              'age': [age],
                              'odo': [odo],
@@ -21,7 +23,7 @@ class Utils:
         data['model'] = data['model'].astype('category')
         data['fuel'] = data['fuel'].astype('category')
         data['color'] = data['color'].astype('category')
-        price = int(np.expm1(ml_model.predict(data))[0])
+        price = int(np.expm1(lgbm.predict(data))[0])
 
         return price
 
@@ -56,6 +58,6 @@ class Utils:
 
     @staticmethod
     def check_allowed_file(filename):
-        ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
+        ALLOWED_EXTENSIONS = set(['JPG','png', 'jpg', 'jpeg'])
         return '.' in filename and \
             filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
