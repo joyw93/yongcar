@@ -1,15 +1,9 @@
 <!doctype html>
-<html lang="en">
+<html lang="ko">
   <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
-    <meta name="generator" content="Hugo 0.88.1">
-    <title>Signin Template · Bootstrap v5.1</title>
 
-    <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/sign-in/">
-
+    <title>로그인</title>
 
 
     <!-- Bootstrap core CSS -->
@@ -42,12 +36,13 @@
     {{ form.hidden_tag() }}
 
 
+  <a href="{{ url_for('main.home') }}">
+    <img class="mb-4" src="/static/brand/logo.png" alt="" width="200" height="200">
+  </a>      
 
-    <img class="mb-4" src="/static/brand/bootstrap-logo.svg" alt="" width="72" height="57">
-      <h1 class="h3 mb-3 fw-normal">로그인</h1>
-        {% for field, errors in form.errors.items() %}
+      {% for field, errors in form.errors.items() %}
         <div class="alert alert-danger" role="alert">
-            <strong>{{ form[field].label }}</strong>: {{ ', '.join(errors) }}
+            {{ ', '.join(errors) }}
         </div>
         {% endfor %}
 
@@ -71,14 +66,15 @@
 
     <div class="checkbox mb-3">
       <label>
-        <input type="checkbox" value="remember-me"> 아이디 저장
+        <input type="checkbox" value="remember-me"> 로그인 유지
       </label>
     </div>
-    <button class="w-100 btn btn-lg btn-primary" type="submit">로그인</button>
-
+    <div class="d-grid gap-3">
+      <button class="w-100 btn btn-lg btn-primary" type="submit">로그인</button>
+      <button type="button" onclick="location.href='{{url_for('auth.register')}}'" class="w-100 btn btn-lg btn-outline-secondary">회원가입</button>
+    </div>
   </form>
 </main>
-
 
 
 </body>

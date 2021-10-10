@@ -1,6 +1,8 @@
 from flask import Flask
 from yong.models.user_model import User
 from flask_login import LoginManager
+
+
 import os
 
 SECRET_KEY = os.environ['SECRET_KEY']
@@ -8,7 +10,9 @@ SECRET_KEY = os.environ['SECRET_KEY']
 def create_app():
     app = Flask(__name__)
     app.config["SECRET_KEY"] = SECRET_KEY
-
+    app.config['MAX_CONTENT_LENGTH'] = 10 * 1024 * 1024 # 파일업로드용량 10MB로 제한
+    app.config['IMG_FOLDER'] = os.path.join('static')
+    
     login_manager = LoginManager()
     login_manager.login_view = 'auth.login'
     login_manager.login_message = u"로그인이 필요합니다."

@@ -1,13 +1,14 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="container my-3">
+
+<div class="container my-3 w-50 ">
 <h5 class="my-3 border-bottom pb-2">회원가입</h5>
     <form method="post" class="post-form">
     
         {{ form.hidden_tag() }}
         {% for field, errors in form.errors.items() %}
         <div class="alert alert-danger" role="alert">
-            <strong>{{ form[field].label }}</strong>: {{ ', '.join(errors) }}
+            {{ ', '.join(errors) }}
         </div>
         {% endfor %}
 
@@ -35,13 +36,14 @@
                    value="{{ form.pw.data or '' }}">
         </div>
 
-        <div class="form-group">
+        <div class="form-group pb-2">
             <label for="pw_confirm">비밀번호 확인</label>
             <input type="password" class="form-control" name="pw_confirm" id="pw_confirm"
                    value="{{ form.pw_confirm.data or '' }}">
         </div>
        
-        <button type="submit" class="btn btn-primary">생성하기</button>
+       
+        <button type="submit" class="btn btn-primary">계정생성</button>
     </form>
 </div>
 {% endblock %}

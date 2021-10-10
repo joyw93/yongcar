@@ -17,16 +17,21 @@
           font-size: 3.5rem;
         }
       }
+
+      #index {
+      border-radius: 20px;
+    }
     </style>
 
     
 
 
   <section class="py-5 text-center container">
+    <button id="index" type="button" class="btn btn-dark" disabled data-bs-toggle="button" autocomplete="off">총 {{list_size}} 대의 차량이 있습니다.</button>
     <div class="row py-lg-5">
       <div class="col-lg-6 col-md-8 mx-auto">
         <h1 class="fw-light">매물을 등록하세요!</h1>
-        <p class="lead text-muted">다른 사람들이 웹페이지에 등록한 중고차 매물들을 구경할 수 있습니다.</p>
+        <p class="lead text-muted">사람들이 웹사이트에 등록한 중고차 매물을 구경할 수 있습니다.</p>
         <p>
           <a href="{{ url_for('car.create') }}" class="btn btn-primary my-2">매물 등록하기</a>
          
@@ -46,24 +51,37 @@
   
         <div class="col">
           <div class="card shadow-sm">
-            <img src={{car['img_url']}} class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns={{"http://www.w3.org/2000/svg"}} role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/></img>
+            <img src="{{car.img_url}}" class="bd-placeholder-img card-img-top" width="100%" height="225" role="img"  preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#55595c"/></img>
 
             <div class="card-body">
-              <p class="card-text fw-bold">{{car['manufact']}} {{car['model']}}</p>
-              <p class="card-text text-muted">{{car['age']}}년식 | {{car['odo']}}km | {{car['fuel']}}</p>
-              <p class="card-text text-primary">{{car['price']}}만원</p>
+              <p class="card-text fw-bold">{{car.manufact}} {{car.model}}</p>
+              <p class="card-text text-muted">{{car.age}}년식 | {{'{:,}'.format(car.odo)}}km | {{car.fuel}}</p>
+              <p class="card-text text-primary">{{'{:,}'.format(car.price)}}만원</p>
+              
+
+
               <div class="d-flex justify-content-between align-items-center">
                 <div class="btn-group">
                   <button type="button" onclick="location.href='{{url_for('car.detail', car_id=car['car_id'])}}'" class="btn btn-sm btn-outline-secondary">상세정보</button>                 
                 </div>
-                <small class="text-muted">9 mins</small>
+                {% if car.price<=car.predicted_price*0.4 %}
+                <span title="해당 매물의 적정 시세는 {{'{:,}'.format(car.predicted_price)}}만원 입니다." data-toggle="tooltip" data-placement="top" class="badge rounded-pill bg-danger">허위매물 위험</span>
+                {% elif (car.price>car.predicted_price*0.4)and(car.price<=car.predicted_price*0.6) %}
+                <span title="해당 매물의 적정 시세는 {{'{:,}'.format(car.predicted_price)}}만원 입니다." data-toggle="tooltip" data-placement="top" class="badge rounded-pill bg-warning">허위매물 주의</span>
+                {% endif %}
               </div>
             </div>
           </div>
         </div>
     
+    
+
+
 
  {% endfor %}
+
+
+
  {% else %}
         
           <h1>매물이 없습니다. 매물을 등록 해 주세요</h1>
@@ -71,9 +89,25 @@
  {% endif %}
 
 
-  </div>
+      </div>
     </div>
   </div>
+
+<nav aria-label="Page navigation example">
+  <ul class="pagination justify-content-center">
+    <li class="page-item"><a class="page-link" href="{{url_for('car._list', current_page=current_page-1)}}">이전</a></li>
+    {% for page_num in range(start_page,(start_page+page_length)) %}
+    {% if page_num==current_page %}
+    <li class="page-item active"><a class="page-link" href="{{url_for('car._list', current_page=page_num)}}")>{{page_num}}</a></li>
+    {% else %}
+    <li class="page-item"><a class="page-link" href="{{url_for('car._list', current_page=page_num)}}")>{{page_num}}</a></li>
+    {% endif %}
+    {% endfor %}
+    <li class="page-item"><a class="page-link" href="{{url_for('car._list', current_page=current_page+1)}}">다음</a></li>
+  </ul>
+</nav>
+
+
 
 
 
@@ -81,5 +115,23 @@
 
       
 
+
+
+
+
+
+
+
+
+
+
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+	
+  <script>
+			$(function () {
+				$('[data-toggle="tooltip"]').tooltip()
+			})
+		</script>
 
 {% endblock %}

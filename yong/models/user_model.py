@@ -32,7 +32,6 @@ class User(UserMixin):
         db_cursor = mysql_db.cursor()
         sql = "SELECT * FROM user_table WHERE user_email = '" + \
               str(user_email) + "'"
-        # print (sql)
         db_cursor.execute(sql)
         user = db_cursor.fetchone()
         if not user:
