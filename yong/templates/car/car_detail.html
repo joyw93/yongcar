@@ -21,8 +21,6 @@
        
        {% if current_user.user_id == car.user_id %}
         <div class="my-3">
-            <a href="{{ url_for('car.delete', car_id=car.car_id) }}"
-               class="delete btn btn-sm btn-outline-secondary">수정</a>
 
             <a href="{{ url_for('car.delete', car_id=car.car_id, user_id=car.user_id) }}"
                class="delete btn btn-sm btn-outline-secondary">삭제</a>

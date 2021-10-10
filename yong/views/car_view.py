@@ -10,7 +10,7 @@ from flask_login import current_user, login_required
 
 bp = Blueprint('car', __name__, url_prefix='/car')
 lgbm = joblib.load('lgbm_model.pkl')
-
+df = CarData.get_data()
 
 
 @bp.route('/predict', methods=['GET','POST'])
@@ -32,7 +32,11 @@ def predict():
         price_3 = Utils.predict_price(lgbm, model, age-3, odo, fuel, color)
         price_5 = Utils.predict_price(lgbm, model, age-5, odo, fuel, color)
         price_list=[price_newcar, price_now, price_1, price_3, price_5]
-        return render_template('car/predict_car.html',manufact=manufact, model=model, age=age, odo=odo, fuel=fuel, price=price, price_list=price_list)
+
+        
+        mean_odo = int(df[df['age']==age]['odo'].mean())
+
+        return render_template('car/predict_car.html',manufact=manufact, model=model, age=age, odo=odo, fuel=fuel, price=price, price_list=price_list, mean_odo=mean_odo)
         
     price_list=[0,0,0,0,0]
     return render_template('car/predict_car.html',price_list=price_list)
