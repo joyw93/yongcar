@@ -66,7 +66,7 @@ def report(model):
     model_list=[]
     models=df['model'].unique()
 
-    for model in models:model_list.append(len(df[df['model']==model])) 
+    for model_ in models:model_list.append(len(df[df['model']==model_])) 
     for age in range(2000,2022):price_age_list.append(Utils.predict_price(model,age,0,'가솔린','black'))
     for odo in range(0,160000,10000):price_odo_list.append(Utils.predict_price(model,2021,odo,'가솔린','black'))
     
