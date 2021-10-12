@@ -40,7 +40,7 @@ def _list(current_page):
         current_page=1
        
     question_list = Question.get_page((current_page-1)*page_size,page_size)
-
+    #question_list = Question.get_list()
     start_page = int((current_page-1)/current_page_count)*current_page_count+1
     if (page_count-start_page)<current_page_count:
         page_length = (page_count-start_page)+1
