@@ -1,7 +1,7 @@
 from flask import Flask
 from yong.models.user_model import User
 from flask_login import LoginManager
-
+#from yong.config import SECRET_KEY
 
 import os
 

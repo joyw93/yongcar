@@ -27,6 +27,12 @@ def create():
 @bp.route('/list/', defaults={'current_page': 1})
 @bp.route('/list/<int:current_page>')
 def _list(current_page):
+
+    try:
+        Question.get_size()
+    except:
+        None
+        
     list_size = Question.get_size()
     page_size = 5
     current_page_count = 3
@@ -40,7 +46,7 @@ def _list(current_page):
         current_page=1
        
     question_list = Question.get_page((current_page-1)*page_size,page_size)
-
+    #question_list = Question.get_list()
     start_page = int((current_page-1)/current_page_count)*current_page_count+1
     if (page_count-start_page)<current_page_count:
         page_length = (page_count-start_page)+1

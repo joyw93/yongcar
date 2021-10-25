@@ -2,9 +2,7 @@
 from flask import Blueprint, render_template, request, jsonify
 import joblib
 import os
-
 from flask import Blueprint, render_template, request, flash, url_for, redirect
-
 import uuid
 from yong.utils import Utils
 from yong.models.car_predict_model import CarPredict
@@ -12,6 +10,7 @@ from yong.models.car_model import Car
 from yong.models.pagination_model import Pagination
 from yong.models.car_data_model import CarData
 from flask_login import current_user, login_required
+#from yong.config import BUCKET_PATH
 
 BUCKET_PATH = os.environ['BUCKET_PATH']
 
@@ -79,6 +78,12 @@ def report(model):
 @bp.route('/list/', defaults={'current_page': 1})
 @bp.route('/list/<int:current_page>', methods=['GET','POST'])
 def _list(current_page):
+    
+    try:
+        Car.get_size()
+    except:
+        None
+
     list_size = Car.get_size()
     page_size=9
     current_page_count = 3
