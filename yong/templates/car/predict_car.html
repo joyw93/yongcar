@@ -1,46 +1,31 @@
 {% extends "base.html" %}
 {% block content %}
-
-
-
 {% if car %}
-  
 <div class="row">
-
   <div class="col-10">
-
     <div class="row">
-
-
       <div class="border-bottom py-5 border-2 container col-11">
           <h1 class="fw-bold">{{car.manufact}} {{car.model}} <span class="text-muted">조회 결과입니다.</span></h1>
           <img src="/static/car_image/{{car.manufact}}_{{car.model}}.jpg" alt="My Image" width="450" height="300">
           <p class="text-muted">{{car.age}}년식 | {{'{:,}'.format(car.odo)}}km | {{car.fuel}}</p>
-          
-          
           <p>   
-              <span class="fs-6 ">예측가격 &nbsp </span>
-              <strong class="mb-3 fs-1 text-primary">{{'{:,}'.format(car.price)}}만원</strong>
+            <span class="fs-6 ">예측가격 &nbsp </span>
+            <strong class="mb-3 fs-1 text-primary">{{'{:,}'.format(car.price)}}만원</strong>
           </p> 
-
-      
       </div>
-    
     </div>
-
     <div class="m-5">
       <h6 class="fw-bold py-3">차량 잔존가치</h6>       
       <div style="width:80%;">
-      <canvas id="price"></canvas>      
+        <canvas id="price"></canvas>      
       </div>
-
-      <h6 class="fw-bold py-3">{{age}}년식 차량 주행거리</h6>       
+      <h6 class="fw-bold py-3">{{car.age}}년식 차량 주행거리(KM)</h6>       
       <div style="width:80%;">
-      <canvas id="odo"></canvas>      
+        <canvas id="odo"></canvas>      
       </div>
-      {% if car.odo>mean_model_odo %}
+      {% if car.odo > mean_model_odo %}
       <h5 class="text-muted py-3">조회된 차량은 연식에 비해 주행거리가 <strong class="text-dark">많은편</strong>입니다.</h5>
-      {% elif car.odo<mean_model_odo %}
+      {% elif car.odo < mean_model_odo %}
       <h5 class="text-muted py-3">조회된 차량은 연식에 비해 주행거리가 <strong class="text-dark">적은편</strong>입니다.</h5>
       {% endif %}  
       <a href="{{url_for('car.report', model=car.model)}}" class="py-5 icon-link text-primary">
@@ -48,155 +33,9 @@
       <svg class="bi" width="1em" height="1em"><use xlink:href="#chevron-right"/></svg>
       </a>
     </div>
-
-    
- 
   </div>
-
-
-
-    <div class="position-sticky py-5 h-75 col-2" style="top: 4rem;"> 
-      <form class="d-grid gap-1" method="POST" action="{{ url_for('car.predict') }}"> <!-- note action -->
-
-        <button id="index" type="button" class="btn btn-dark" disabled data-bs-toggle="button" autocomplete="off">차량 정보 입력</button>
-        <select required="required" class="form-select" id="manufact" name="manufact" >
-          <option value="">제조사 선택</option>
-          <option value="현대">현대</option>
-          <option value="제네시스">제네시스</option>
-          <option value="기아">기아</option>
-          <option value="르노삼성">르노삼성</option>
-          <option value="쌍용">쌍용</option>
-          <option value="GM대우">GM대우</option>
-          <option value="벤츠">벤츠</option>
-          <option value="BMW">BMW</option>
-          <option value="아우디">아우디</option>
-          <option value="폭스바겐">폭스바겐</option>
-        </select>
-
-
-        <select required="required" class="form-select" id="model" name="model">
-          <option value="">모델 선택</option>
-          <!-- 현대 -->
-          <option value="아반떼" class="현대">아반떼</option>
-          <option value="쏘나타" class="현대">쏘나타</option>
-          <option value="그랜저" class="현대">그랜저</option>
-          
-          <!-- 제네시스 -->
-          <option value="G70" class="제네시스">G70</option>
-          <option value="G80" class="제네시스">G80</option>
-          
-          <!-- 기아 -->
-          <option value="K3" class="기아">K3</option>
-          <option value="K5" class="기아">K5</option>
-          <option value="K7" class="기아">K7</option>
-          
-          <!-- 르노삼성 -->
-          <option value="SM3" class="르노삼성">SM3</option>
-          <option value="SM5" class="르노삼성">SM5</option>
-          <option value="SM6" class="르노삼성">SM6</option>
-          <option value="SM7" class="르노삼성">SM7</option>
-
-          <!-- 쌍용 -->
-          <option value="티볼리" class="쌍용">티볼리</option>
-          <option value="코란도" class="쌍용">코란도</option>
-          
-          <!-- GM대우 -->
-          <option value="크루즈" class="GM대우">크루즈</option>
-          <option value="말리부" class="GM대우">말리부</option>
-
-          <!-- 벤츠  -->
-          <option value="C클래스" class="벤츠">C클래스</option>
-          <option value="E클래스" class="벤츠">E클래스</option>
-          <option value="S클래스" class="벤츠">S클래스</option>
-
-          <!-- BMW  -->
-          <option value="3시리즈" class="BMW">3시리즈</option>
-          <option value="5시리즈" class="BMW">5시리즈</option>
-          <option value="7시리즈" class="BMW">7시리즈</option>
-
-          <!-- 아우디  -->
-          <option value="A4" class="아우디">A4</option>
-          <option value="A6" class="아우디">A6</option>
-          <option value="A7" class="아우디">A7</option>
-
-          <!-- 폭스바겐  -->
-          <option value="골프" class="폭스바겐">골프</option>
-          <option value="티구안" class="폭스바겐">티구안</option>
-          <option value="파사트" class="폭스바겐">파사트</option>      
-        </select>
-
-
-        <select required="required" class="form-select" id="age" name="age">
-          <option value="">연식 선택</option>
-          <option value="2021">2021년식</option>
-          <option value="2020">2020년식</option>
-          <option value="2019">2019년식</option>
-          <option value="2018">2018년식</option>
-          <option value="2017">2017년식</option>
-          <option value="2016">2016년식</option>
-          <option value="2015">2015년식</option>
-          <option value="2014">2014년식</option>
-          <option value="2013">2013년식</option>
-          <option value="2012">2012년식</option>
-          <option value="2011">2011년식</option>
-          <option value="2010">2010년식</option>
-          <option value="2009">2009년식</option>
-          <option value="2008">2008년식</option>
-          <option value="2007">2007년식</option>
-          <option value="2006">2006년식</option>
-          <option value="2005">2005년식</option>
-          <option value="2004">2004년식</option>
-          <option value="2003">2003년식</option>
-          <option value="2002">2002년식</option>
-          <option value="2001">2001년식</option>
-          <option value="2000">2000년식</option>
-        </select>
-
-
-
-        <div class="input-group">
-          <input required="required" onkeyup="inputNumberFormat(this)" name="odo" id="odo" type="text" class="form-control" placeholder="주행거리" aria-label="Recipient's username" aria-describedby="basic-addon2">
-          <span class="input-group-text p-2" id="basic-addon2">km</span>
-        </div>
-
-        
-
-        
-        <select required="required" class="form-select p-2" id="fuel" name="fuel">
-          <option value="">연료타입 선택</option>
-          <option value="가솔린">가솔린</option>
-          <option value="디젤">디젤</option>
-          <option value="LPG">LPG</option>
-          <option value="hybird">하이브리드</option>
-        </select>
-
-
-        <select required="required" class="form-select p-2" id="color" name="color">
-          <option value="">색상 선택</option>
-          <option value="black">검정색</option>
-          <option value="white">흰색</option>
-          <option value="gray">은색&회색</option>
-          <option value="other">기타</option>
-        </select>
-
-
-        <button type="submit" class="btn btn-primary p-3">검색하기</button>
-      </form>
-    </div>
-
-</div>
-
-
-
-
-
-
-
-  {% else %}
-  <div class="row">
-    
-    <form class="m-1 h-75 col-3 d-grid gap-1" method="POST" action="{{ url_for('car.predict') }}"> <!-- note action -->
-   
+  <div class="position-sticky py-5 h-75 col-2" style="top: 4rem;"> 
+    <form class="d-grid gap-1" method="POST" action="{{ url_for('car.predict') }}">
       <button id="index" type="button" class="btn btn-dark" disabled data-bs-toggle="button" autocomplete="off">차량 정보 입력</button>
       <select required="required" class="form-select" id="manufact" name="manufact" >
         <option value="">제조사 선택</option>
@@ -211,60 +50,47 @@
         <option value="아우디">아우디</option>
         <option value="폭스바겐">폭스바겐</option>
       </select>
-  
-  
       <select required="required" class="form-select" id="model" name="model">
         <option value="">모델 선택</option>
         <!-- 현대 -->
         <option value="아반떼" class="현대">아반떼</option>
         <option value="쏘나타" class="현대">쏘나타</option>
         <option value="그랜저" class="현대">그랜저</option>
-        
         <!-- 제네시스 -->
         <option value="G70" class="제네시스">G70</option>
         <option value="G80" class="제네시스">G80</option>
-        
         <!-- 기아 -->
         <option value="K3" class="기아">K3</option>
         <option value="K5" class="기아">K5</option>
         <option value="K7" class="기아">K7</option>
-        
         <!-- 르노삼성 -->
         <option value="SM3" class="르노삼성">SM3</option>
         <option value="SM5" class="르노삼성">SM5</option>
         <option value="SM6" class="르노삼성">SM6</option>
         <option value="SM7" class="르노삼성">SM7</option>
-  
         <!-- 쌍용 -->
         <option value="티볼리" class="쌍용">티볼리</option>
         <option value="코란도" class="쌍용">코란도</option>
-        
-         <!-- GM대우 -->
+        <!-- GM대우 -->
         <option value="크루즈" class="GM대우">크루즈</option>
         <option value="말리부" class="GM대우">말리부</option>
-  
         <!-- 벤츠  -->
         <option value="C클래스" class="벤츠">C클래스</option>
         <option value="E클래스" class="벤츠">E클래스</option>
         <option value="S클래스" class="벤츠">S클래스</option>
-  
         <!-- BMW  -->
         <option value="3시리즈" class="BMW">3시리즈</option>
         <option value="5시리즈" class="BMW">5시리즈</option>
         <option value="7시리즈" class="BMW">7시리즈</option>
-  
         <!-- 아우디  -->
         <option value="A4" class="아우디">A4</option>
         <option value="A6" class="아우디">A6</option>
         <option value="A7" class="아우디">A7</option>
-  
         <!-- 폭스바겐  -->
         <option value="골프" class="폭스바겐">골프</option>
         <option value="티구안" class="폭스바겐">티구안</option>
         <option value="파사트" class="폭스바겐">파사트</option>      
       </select>
-  
-  
       <select required="required" class="form-select" id="age" name="age">
         <option value="">연식 선택</option>
         <option value="2021">2021년식</option>
@@ -290,17 +116,10 @@
         <option value="2001">2001년식</option>
         <option value="2000">2000년식</option>
       </select>
-  
-  
-  
       <div class="input-group">
         <input required="required" onkeyup="inputNumberFormat(this)" name="odo" id="odo" type="text" class="form-control" placeholder="주행거리" aria-label="Recipient's username" aria-describedby="basic-addon2">
         <span class="input-group-text p-2" id="basic-addon2">km</span>
       </div>
-  
-      
-  
-      
       <select required="required" class="form-select p-2" id="fuel" name="fuel">
         <option value="">연료타입 선택</option>
         <option value="가솔린">가솔린</option>
@@ -308,8 +127,6 @@
         <option value="LPG">LPG</option>
         <option value="hybird">하이브리드</option>
       </select>
-  
-  
       <select required="required" class="form-select p-2" id="color" name="color">
         <option value="">색상 선택</option>
         <option value="black">검정색</option>
@@ -317,29 +134,123 @@
         <option value="gray">은색&회색</option>
         <option value="other">기타</option>
       </select>
-  
-  
       <button type="submit" class="btn btn-primary p-3">검색하기</button>
     </form>
-
-    <div class="col-7">      
-      <div class="px-4 py-5 text-center">
-        <h1 class="p-3 display-5 fw-bold">검색 해보세요!</h1>
-        <div class="mx-auto">
-          <p class="p-2 lead mb-4">차량정보를 입력하면, AI 기술을 이용하여 중고차 가격을 예측해 주는 서비스입니다. </p>
-        </div>
-      </div>        
-    </div>
-  
   </div>
-
-
-  {% endif %}
-
-
-
-
-
+</div>
+{% else %}
+<div class="row"> 
+  <form class="m-1 h-75 col-3 d-grid gap-1" method="POST" action="{{ url_for('car.predict') }}">
+    <button id="index" type="button" class="btn btn-dark" disabled data-bs-toggle="button" autocomplete="off">차량 정보 입력</button>
+    <select required="required" class="form-select" id="manufact" name="manufact" >
+      <option value="">제조사 선택</option>
+      <option value="현대">현대</option>
+      <option value="제네시스">제네시스</option>
+      <option value="기아">기아</option>
+      <option value="르노삼성">르노삼성</option>
+      <option value="쌍용">쌍용</option>
+      <option value="GM대우">GM대우</option>
+      <option value="벤츠">벤츠</option>
+      <option value="BMW">BMW</option>
+      <option value="아우디">아우디</option>
+      <option value="폭스바겐">폭스바겐</option>
+    </select>
+    <select required="required" class="form-select" id="model" name="model">
+      <option value="">모델 선택</option>
+      <!-- 현대 -->
+      <option value="아반떼" class="현대">아반떼</option>
+      <option value="쏘나타" class="현대">쏘나타</option>
+      <option value="그랜저" class="현대">그랜저</option>
+      <!-- 제네시스 -->
+      <option value="G70" class="제네시스">G70</option>
+      <option value="G80" class="제네시스">G80</option>
+      <!-- 기아 -->
+      <option value="K3" class="기아">K3</option>
+      <option value="K5" class="기아">K5</option>
+      <option value="K7" class="기아">K7</option>
+      <!-- 르노삼성 -->
+      <option value="SM3" class="르노삼성">SM3</option>
+      <option value="SM5" class="르노삼성">SM5</option>
+      <option value="SM6" class="르노삼성">SM6</option>
+      <option value="SM7" class="르노삼성">SM7</option>
+      <!-- 쌍용 -->
+      <option value="티볼리" class="쌍용">티볼리</option>
+      <option value="코란도" class="쌍용">코란도</option>
+      <!-- GM대우 -->
+      <option value="크루즈" class="GM대우">크루즈</option>
+      <option value="말리부" class="GM대우">말리부</option>
+      <!-- 벤츠  -->
+      <option value="C클래스" class="벤츠">C클래스</option>
+      <option value="E클래스" class="벤츠">E클래스</option>
+      <option value="S클래스" class="벤츠">S클래스</option>
+      <!-- BMW  -->
+      <option value="3시리즈" class="BMW">3시리즈</option>
+      <option value="5시리즈" class="BMW">5시리즈</option>
+      <option value="7시리즈" class="BMW">7시리즈</option>
+      <!-- 아우디  -->
+      <option value="A4" class="아우디">A4</option>
+      <option value="A6" class="아우디">A6</option>
+      <option value="A7" class="아우디">A7</option>
+      <!-- 폭스바겐  -->
+      <option value="골프" class="폭스바겐">골프</option>
+      <option value="티구안" class="폭스바겐">티구안</option>
+      <option value="파사트" class="폭스바겐">파사트</option>      
+    </select>
+    <select required="required" class="form-select" id="age" name="age">
+      <option value="">연식 선택</option>
+      <option value="2021">2021년식</option>
+      <option value="2020">2020년식</option>
+      <option value="2019">2019년식</option>
+      <option value="2018">2018년식</option>
+      <option value="2017">2017년식</option>
+      <option value="2016">2016년식</option>
+      <option value="2015">2015년식</option>
+      <option value="2014">2014년식</option>
+      <option value="2013">2013년식</option>
+      <option value="2012">2012년식</option>
+      <option value="2011">2011년식</option>
+      <option value="2010">2010년식</option>
+      <option value="2009">2009년식</option>
+      <option value="2008">2008년식</option>
+      <option value="2007">2007년식</option>
+      <option value="2006">2006년식</option>
+      <option value="2005">2005년식</option>
+      <option value="2004">2004년식</option>
+      <option value="2003">2003년식</option>
+      <option value="2002">2002년식</option>
+      <option value="2001">2001년식</option>
+      <option value="2000">2000년식</option>
+    </select>
+    <div class="input-group">
+      <input required="required" onkeyup="inputNumberFormat(this)" name="odo" id="odo" type="text" class="form-control" placeholder="주행거리" aria-label="Recipient's username" aria-describedby="basic-addon2">
+      <span class="input-group-text p-2" id="basic-addon2">km</span>
+    </div>
+    <select required="required" class="form-select p-2" id="fuel" name="fuel">
+      <option value="">연료타입 선택</option>
+      <option value="가솔린">가솔린</option>
+      <option value="디젤">디젤</option>
+      <option value="LPG">LPG</option>
+      <option value="hybird">하이브리드</option>
+    </select>
+    <select required="required" class="form-select p-2" id="color" name="color">
+      <option value="">색상 선택</option>
+      <option value="black">검정색</option>
+      <option value="white">흰색</option>
+      <option value="gray">은색&회색</option>
+      <option value="other">기타</option>
+    </select>
+    <button type="submit" class="btn btn-primary p-3">검색하기</button>
+  </form>
+  <div class="col-7">      
+    <div class="px-4 py-5 text-center">
+      <h1 class="p-3 display-5 fw-bold">검색 해보세요!</h1>
+      <div class="mx-auto">
+        <p class="p-2 lead mb-4">차량정보를 입력하면, AI 기술을 이용하여 중고차 가격을 예측해 주는 서비스입니다. </p>
+      </div>
+    </div>        
+  </div>
+</div>
+{% endif %}
 
   <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
     <symbol id="bootstrap" viewBox="0 0 118 94">
@@ -402,12 +313,8 @@
   <link href="/static/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="/static/dist/css/features.css" rel="stylesheet">
   <script src="/static/dist/js/bootstrap.bundle.min.js"></script>  
-
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
-
 <script>
-
   let manu_select = document.getElementById('manufact');
   let model_select = document.getElementById('model');
   for(var item of model_select){
@@ -415,11 +322,8 @@
                 item.style.display = 'none';
             }
         }
-
   manu_select.onchange = function(){
-           
       var selectClass = manu_select.value;
-      
       for(var item of model_select){
         if(item.className == selectClass){          
           item.style.display ='inline';          
@@ -427,43 +331,31 @@
           item.style.display = 'none';
         }
       }
-
       firstVal = document.getElementsByClassName(selectClass)
       model_select.value = firstVal[0].value
-
   }
-
-
-
 </script>
-
 <script type="text/javascript">
     function comma(str) {
         str = String(str);
         return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
     }
-
     function uncomma(str) {
         str = String(str);
         return str.replace(/[^\d]+/g, '');
     } 
-    
     function inputNumberFormat(obj) {
         obj.value = comma(uncomma(obj.value));
-    }
-    
+    }   
     function inputOnlyNumberFormat(obj) {
         obj.value = onlynumber(uncomma(obj.value));
     }
-    
     function onlynumber(str) {
 	    str = String(str);
 	    return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g,'$1');
 	}
 </script>
-
 <script>
-
   new Chart(document.getElementById("price"), {
       type: 'line',
       data: {
@@ -471,14 +363,11 @@
           datasets: [{
               label: '잔존가치',
               data: [
-
                   "{{price_list[0]}}",
                   "{{price_list[1]}}",
                   "{{price_list[2]}}",
                   "{{price_list[3]}}",
                   "{{price_list[4]}}"
-
-                 
               ],
               borderColor: "rgba(26, 128, 229, 0.8)",
               backgroundColor: "rgba(26, 128, 229, 0.2)",
@@ -490,7 +379,6 @@
           legend: {
             display: false
           },
-
           responsive: true,
           title: {
               display: false,
@@ -529,10 +417,7 @@
           }
       }
   });
-  
-  </script>
-
-
+</script>
 <script>
   var ctx = document.getElementById('odo').getContext('2d');
   var myChart = new Chart(ctx, {
@@ -574,12 +459,4 @@
       }
   });
   </script>
-
-
-
-
-
-
-
-
 {% endblock %}

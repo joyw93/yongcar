@@ -1,4 +1,3 @@
-
 from flask import Blueprint, render_template, request, jsonify
 import joblib
 import os
@@ -11,18 +10,15 @@ from yong.models.pagination_model import Pagination
 from yong.models.car_data_model import CarData
 from flask_login import current_user, login_required
 from yong.config import BUCKET_PATH
-
 # BUCKET_PATH = os.environ['BUCKET_PATH']
 
-bp = Blueprint('car', __name__, url_prefix='/car')
-df = CarData.get_data()
 
+bp = Blueprint('car', __name__, url_prefix='/car')
+cardata = CarData.get_data()
 
 
 @bp.route('/predict', methods=['GET','POST'])
 def predict():
-    
-   
     if request.method =='POST':
         manufact = request.form['manufact']
         model = request.form['model']
@@ -30,47 +26,39 @@ def predict():
         odo = int(request.form['odo'].replace(',', ''))
         fuel = request.form['fuel']
         color = request.form['color']
-
         car = CarPredict(manufact,model,age,odo,fuel,color)                   
-
         price = Utils.predict_price(model, age, odo, fuel, color)        
-        price_newcar =int(Utils.predict_price(model, 2021, 0, fuel, color)*1.1)
+        price_newcar = int(Utils.predict_price(model, 2021, 0, fuel, color)*1.1)
         price_1 = Utils.predict_price( model, age-1, odo, fuel, color)
         price_3 = Utils.predict_price( model, age-3, odo, fuel, color)
         price_5 = Utils.predict_price( model, age-5, odo, fuel, color)
-        price_list=[price_newcar, price, price_1, price_3, price_5]
-
-        
-        mean_odo = int(df[df['age']==age]['odo'].mean())
-
-        
+        price_list = [price_newcar, price, price_1, price_3, price_5]
+        mean_odo = int(cardata[cardata['age'] == age]['odo'].mean())
         try:
-            mean_model_odo = int(df[(df['age']==age)&(df['model']==model)]['odo'].mean())
-
+            mean_model_odo = int(cardata[(cardata['age']==age) & (cardata['model']==model)]['odo'].mean())
         except:
-            mean_model_odo=mean_odo
-
-        return render_template('car/predict_car.html',car=car,model=model, odo=odo, price_list=price_list, mean_odo=mean_odo, mean_model_odo=mean_model_odo)
+            mean_model_odo = mean_odo
+        return render_template('car/predict_car.html', car = car, model = model, odo = odo, price_list = price_list, mean_odo = mean_odo, mean_model_odo = mean_model_odo)
         
-    price_list=[0,0,0,0,0]
+    price_list=[0, 0, 0, 0, 0]
     return render_template('car/predict_car.html',price_list=price_list)
 
 
 @bp.route('/predict/report/<model>', methods=['GET','POST'])
 def report(model):
     
-    df = CarData.get_data()
+    cardata = CarData.get_data()
     price_age_list=[]
     price_odo_list=[]
     model_list=[]
-    models=df['model'].unique()
+    models=cardata['model'].unique()
 
-    for model_ in models:model_list.append(len(df[df['model']==model_])) 
+    for model_ in models:model_list.append(len(cardata[cardata['model']==model_])) 
     for age in range(2000,2022):price_age_list.append(Utils.predict_price(model,age,0,'가솔린','black'))
     for odo in range(0,160000,10000):price_odo_list.append(Utils.predict_price(model,2021,odo,'가솔린','black'))
     
 
-    return render_template('car/report_car.html', df=df, model_list=model_list, model=model, price_age_list=price_age_list, price_odo_list=price_odo_list)    
+    return render_template('car/report_car.html', model_list=model_list, model=model, price_age_list=price_age_list, price_odo_list=price_odo_list)    
 
 
 

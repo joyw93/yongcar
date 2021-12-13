@@ -1,73 +1,44 @@
 <nav class="navbar navbar-expand-sm navbar-dark bg-dark border-bottom ">
   <div class="container-fluid">
     <a class="navbar-brand" href="{{ url_for('main.home') }}">
-    
       <img src="/static/brand/logo.svg" alt="" width="50" height="40">
-    
     </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-
-        {% if current_user.is_authenticated %}
-
-
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-
+      {% if current_user.is_authenticated %}
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
           <a class="nav-link" href="{{url_for('car.predict')}}">시세조회</a>
         </li>
-
         <li class="nav-item">
           <a class="nav-link" href="{{url_for('car._list')}}">매물검색</a>
-       </li>
-        
-
+        </li>
         <li class="nav-item">
           <a class="nav-link" href="{{url_for('question._list')}}">게시판</a>
         </li>
-
       </ul>
-
-       <div class="text-end">
+      <div class="text-end">
           <button type="button" onclick="location.href='{{url_for('auth.logout')}}'" class="btn btn-sm btn-outline-light me-2" >로그아웃</button>
-       </div>
-
-        {% else %}
-
+      </div>
+      {% else %}
       <ul class="navbar-nav  me-auto mb-2 mb-lg-0">
-
-
         <li class="nav-item">
           <a class="nav-link" href="{{url_for('car.predict')}}">시세조회</a>
         </li>
-
-         <li class="nav-item">
+        <li class="nav-item">
           <a class="nav-link" href="{{url_for('car._list')}}">매물검색</a>
-       </li>
-
+        </li>
         <li class="nav-item">
           <a class="nav-link" href="{{url_for('question._list')}}">게시판</a>
         </li>
-
-        
-
       </ul>
-
        <div class="text-end">
           <button type="button" onclick="location.href='{{url_for('auth.login')}}'" class="btn-sm btn btn-primary me-2" >로그인</button>
           <button type="button" onclick="location.href='{{url_for('auth.register')}}'" class="btn-sm btn btn-outline-light">회원가입</button>
        </div>
-
-
-
-
-
           {% endif %}
-
     </div>
   </div>
-
-
 </nav>

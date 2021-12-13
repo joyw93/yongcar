@@ -1,28 +1,19 @@
 <!doctype html>
 <html lang="ko">
-<head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="/static/dist/css/bootstrap.min.css">
-    <link rel="shortcut icon" href="/static/brand/logo.svg">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="/static/dist/css/bootstrap.min.css">
+        <link rel="shortcut icon" href="/static/brand/logo.svg">
+        <title>yongCar</title>
+    </head>
+    <body>
+        {% include "navbar.html" %}
+        {% block content %}
+        {% endblock %}
 
-
-    <title>yongCar</title>
-</head>
-<body>
-
-{% include "navbar.html" %}
-
-{% block content %}
-{% endblock %}
-
-<!-- jQuery JS -->
-<script src="/static/dist/js/jquery-3.6.0.min.js"></script>
-<!-- Bootstrap JS -->
-<script src="/static/dist/css/bootstrap.min.css"></script>
-<script src="/static/dist/js/bootstrap.bundle.min.js"></script>
-
-</body>
+        <script src="/static/dist/js/jquery-3.6.0.min.js"></script>
+        <script src="/static/dist/css/bootstrap.min.css"></script>
+        <script src="/static/dist/js/bootstrap.bundle.min.js"></script>
+    </body>
 </html>
