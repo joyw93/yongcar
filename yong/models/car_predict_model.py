@@ -1,5 +1,3 @@
-import pymysql.cursors
-from yong.mysql import conn_mysqldb
 from yong.utils import Utils
 
 

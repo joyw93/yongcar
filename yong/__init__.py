@@ -2,9 +2,7 @@ from flask import Flask
 from yong.models.user_model import User
 from flask_login import LoginManager
 from yong.config import SECRET_KEY
-
 import os
-
 # SECRET_KEY = os.environ['SECRET_KEY']
 
 def create_app():
@@ -26,14 +24,9 @@ def create_app():
     app.register_blueprint(answer_view.bp)
     app.register_blueprint(car_view.bp)
 
-
     from .utils import Utils
     app.jinja_env.filters['datetime'] = Utils.format_datetime
-
-
     @login_manager.user_loader
     def load_user(user_id):
         return User.get(user_id)
-
-
     return app

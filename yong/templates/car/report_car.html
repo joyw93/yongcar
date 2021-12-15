@@ -1,8 +1,5 @@
 {% extends "base.html" %}
 {% block content %}
-
-
-
 <div class="row">
 
     <div class="col-5" style="width:70%;">
@@ -20,10 +17,7 @@
 </div>
 
 
-
-
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
 <script>
 var ctx = document.getElementById('myChart').getContext('2d');
 var myChart = new Chart(ctx, {
@@ -88,10 +82,7 @@ var myChart = new Chart(ctx, {
     }
 });
 </script>
-
-
 <script>
-
   new Chart(document.getElementById("age"), {
       type: 'line',
       data: {
@@ -120,7 +111,6 @@ var myChart = new Chart(ctx, {
           datasets: [{
               label: '{{model}} 연식 대비 가격',
               data: [
-
                   "{{price_age_list[0]}}",
                   "{{price_age_list[1]}}",
                   "{{price_age_list[2]}}",
@@ -186,12 +176,8 @@ var myChart = new Chart(ctx, {
           }
       }
   });
-  
-  </script>
-
-
+</script>
 <script>
-
   new Chart(document.getElementById("odo"), {
       type: 'line',
       data: {
@@ -215,7 +201,6 @@ var myChart = new Chart(ctx, {
           datasets: [{
               label: '{{model}} 주행거리 대비 가격',
               data: [
-
                   "{{price_odo_list[0]}}",
                   "{{price_odo_list[1]}}",
                   "{{price_odo_list[2]}}",
@@ -232,8 +217,6 @@ var myChart = new Chart(ctx, {
                   "{{price_odo_list[13]}}",
                   "{{price_odo_list[14]}}",
                   "{{price_odo_list[15]}}"
-                  
-          
               ],
               borderColor: "rgba(197, 0, 0, 0.7)",
               backgroundColor: "rgba(197, 0, 0, 0.5)",
@@ -276,8 +259,7 @@ var myChart = new Chart(ctx, {
           }
       }
   });
-  
-  </script>
+</script>
 
 
 

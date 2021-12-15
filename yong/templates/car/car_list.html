@@ -1,65 +1,54 @@
 {% extends "base.html" %}
 {% block content %}
+<style>
+  .bd-placeholder-img {
+    font-size: 1.125rem;
+    text-anchor: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+  }
 
-
-
-    <style>
-      .bd-placeholder-img {
-        font-size: 1.125rem;
-        text-anchor: middle;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        user-select: none;
-      }
-
-      @media (min-width: 768px) {
-        .bd-placeholder-img-lg {
-          font-size: 3.5rem;
-        }
-      }
-
-      #index {
-      border-radius: 20px;
+  @media (min-width: 768px) {
+    .bd-placeholder-img-lg {
+      font-size: 3.5rem;
     }
-    </style>
+  }
+
+  #index {
+  border-radius: 20px;
+  }
+</style>
 
     
 
 
-  <section class="py-5 text-center container">
-    <button id="index" type="button" class="btn btn-dark" disabled data-bs-toggle="button" autocomplete="off">총 {{list_size}} 대의 차량이 있습니다.</button>
-    <div class="row py-lg-5">
-      <div class="col-lg-6 col-md-8 mx-auto">
-        <h1 class="fw-light">매물을 등록하세요!</h1>
-        <p class="lead text-muted">사람들이 웹사이트에 등록한 중고차 매물을 구경할 수 있습니다.</p>
-        <p>
-          <a href="{{ url_for('car.create') }}" class="btn btn-primary my-2">매물 등록하기</a>
-         
-        </p>
-      </div>
+<section class="py-5 text-center container">
+  <button id="index" type="button" class="btn btn-dark" disabled data-bs-toggle="button" autocomplete="off">총 {{list_size}} 대의 차량이 있습니다.</button>
+  <div class="row py-lg-5">
+    <div class="col-lg-6 col-md-8 mx-auto">
+      <h1 class="fw-light">매물을 등록하세요!</h1>
+      <p class="lead text-muted">사람들이 웹사이트에 등록한 중고차 매물을 구경할 수 있습니다.</p>
+      <p>
+        <a href="{{ url_for('car.create') }}" class="btn btn-primary my-2">매물 등록하기</a> 
+      </p>
     </div>
-  </section>
+  </div>
+</section>
 
 
 <div class="album py-5 bg-light">
     <div class="container">
-
       <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-
 {% if car_list %}
 {% for car in car_list %}
-  
         <div class="col">
           <div class="card shadow-sm">
             <img src="{{car.img_url}}" class="bd-placeholder-img card-img-top" width="100%" height="225" role="img"  preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#55595c"/></img>
-
             <div class="card-body">
               <p class="card-text fw-bold">{{car.manufact}} {{car.model}}</p>
               <p class="card-text text-muted">{{car.age}}년식 | {{'{:,}'.format(car.odo)}}km | {{car.fuel}}</p>
               <p class="card-text text-primary">{{'{:,}'.format(car.price)}}만원</p>
-              
-
-
               <div class="d-flex justify-content-between align-items-center">
                 <div class="btn-group">
                   <button type="button" onclick="location.href='{{url_for('car.detail', car_id=car['car_id'])}}'" class="btn btn-sm btn-outline-secondary">상세정보</button>                 
@@ -73,22 +62,10 @@
             </div>
           </div>
         </div>
-    
-    
-
-
-
  {% endfor %}
-
-
-
  {% else %}
-        
           <h1>매물이 없습니다. 매물을 등록 해 주세요</h1>
-
  {% endif %}
-
-
       </div>
     </div>
   </div>
@@ -108,30 +85,11 @@
 </nav>
 
 
-
-
-
-
-
-      
-
-
-
-
-
-
-
-
-
-
-
-	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
-	
-  <script>
-			$(function () {
-				$('[data-toggle="tooltip"]').tooltip()
-			})
-		</script>
-
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+<script>
+		$(function () {
+			$('[data-toggle="tooltip"]').tooltip()
+		})
+</script>
 {% endblock %}

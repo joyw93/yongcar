@@ -3,21 +3,17 @@
 <div class="container my-3">
 <h5 class="my-3 border-bottom pb-2">글쓰기</h5>
     <form method="post" class="post-form">
-
         {{ form.hidden_tag() }}
         {% for field, errors in form.errors.items() %}
         <div class="alert alert-danger" role="alert">
             {{ ', '.join(errors) }}
         </div>
         {% endfor %}
-
         {% for message in get_flashed_messages() %}
         <div class="alert alert-danger" role="alert">
             {{ message }}
         </div>
         {% endfor %}
-
-
        <div class="form-group">
             <label for="title">제목</label>
             <input type="text" class="form-control" name="title" id="title" onKeyUp="javascript:fnChkByte(this,'200')">
@@ -36,14 +32,10 @@
     {
         var str = obj.value;
         var str_len = str.length;
-
-
         var rbyte = 0;
         var rlen = 0;
         var one_char = "";
         var str2 = "";
-
-
         for(var i=0; i<str_len; i++)
         {
             one_char = str.charAt(i);
@@ -70,8 +62,4 @@
         }
     }
 </script>
-
-
-
-
 {% endblock %}

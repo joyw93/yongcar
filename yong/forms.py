@@ -16,7 +16,6 @@ class RegistrationForm(FlaskForm):
 
 
 class LoginForm(FlaskForm):
-
     email = StringField("이메일",
                         validators=[DataRequired('메일주소를 입력하세요.'), Email('이메일 형식이 아닙니다.')])
     pw = PasswordField("비밀번호",

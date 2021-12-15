@@ -2,13 +2,8 @@
 <html lang="ko">
   <head>
     <meta charset="utf-8">
-
     <title>로그인</title>
-
-
-    <!-- Bootstrap core CSS -->
 <link href="/static/dist/css/bootstrap.min.css" rel="stylesheet">
-
     <style>
       .bd-placeholder-img {
         font-size: 1.125rem;
@@ -17,65 +12,51 @@
         -moz-user-select: none;
         user-select: none;
       }
-
       @media (min-width: 768px) {
         .bd-placeholder-img-lg {
           font-size: 3.5rem;
         }
       }
     </style>
-
-
-    <!-- Custom styles for this template -->
   <link href="/static/dist/css/signin.css" rel="stylesheet">
   </head>
   <body class="text-center">
-
-<main class="form-signin">
-  <form method="post" class="post-form">
-    {{ form.hidden_tag() }}
-
-
-  <a href="{{ url_for('main.home') }}">
-    <img class="mb-4" src="/static/brand/logo.png" alt="" width="200" height="200">
-  </a>      
-
-      {% for field, errors in form.errors.items() %}
+    <main class="form-signin">
+      <form method="post" class="post-form">
+        {{ form.hidden_tag() }}
+        <a href="{{ url_for('main.home') }}">
+          <img class="mb-4" src="/static/brand/logo.png" alt="" width="200" height="200">
+        </a>      
+        {% for field, errors in form.errors.items() %}
         <div class="alert alert-danger" role="alert">
             {{ ', '.join(errors) }}
         </div>
         {% endfor %}
-
-
-      {% for message in get_flashed_messages() %}
+        {% for message in get_flashed_messages() %}
         <div class="alert alert-danger" role="alert">
             {{ message }}
         </div>
         {% endfor %}
-
-    <div class="form-floating">
-      <input type="email" class="form-control" name="email" id="email" placeholder="name@example.com"
-      value="{{ form.email.data or '' }}">
-      <label for="email" >이메일</label>
-    </div>
-    <div class="form-floating">
-      <input type="password" class="form-control" name="pw" id="pw" placeholder="Password"
-      value="{{ form.pw.data or '' }}">
-      <label for="pw">비밀번호</label>
-    </div>
-
-    <div class="checkbox mb-3">
-      <label>
-        <input type="checkbox" value="remember-me"> 로그인 유지
-      </label>
-    </div>
-    <div class="d-grid gap-3">
-      <button class="w-100 btn btn-lg btn-primary" type="submit">로그인</button>
-      <button type="button" onclick="location.href='{{url_for('auth.register')}}'" class="w-100 btn btn-lg btn-outline-secondary">회원가입</button>
-    </div>
-  </form>
-</main>
-
-
-</body>
+        <div class="form-floating">
+          <input type="email" class="form-control" name="email" id="email" placeholder="name@example.com"
+          value="{{ form.email.data or '' }}">
+          <label for="email" >이메일</label>
+        </div>
+        <div class="form-floating">
+          <input type="password" class="form-control" name="pw" id="pw" placeholder="Password"
+            value="{{ form.pw.data or '' }}">
+          <label for="pw">비밀번호</label>
+        </div>
+        <div class="checkbox mb-3">
+          <label>
+            <input type="checkbox" value="remember-me"> 로그인 유지
+          </label>
+        </div>
+        <div class="d-grid gap-3">
+          <button class="w-100 btn btn-lg btn-primary" type="submit">로그인</button>
+          <button type="button" onclick="location.href='{{url_for('auth.register')}}'" class="w-100 btn btn-lg btn-outline-secondary">회원가입</button>
+        </div>
+      </form>
+    </main>
+  </body>
 </html>

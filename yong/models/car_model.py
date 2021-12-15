@@ -5,7 +5,6 @@ from yong.utils import Utils
 
 class Car:
 
-
     def __init__(self, car_id, user_id, manufact, model, age, odo, fuel, color, price, comment, img_url):
         self.car_id = car_id
         self.user_id = user_id
@@ -24,8 +23,10 @@ class Car:
     def get_id(self):
         return str(self.car_id)    
 
+
     def get_user_id(self):
         return str(self.user_id)       
+
 
     def get_img_url(self):
         return str(self.img_url)
@@ -48,12 +49,9 @@ class Car:
         sql = """INSERT INTO car_table (user_id, manufact, model, age, odo, fuel, color, price, comment, img_url, predicted_price)
                  VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')""" \
                  % (str(user_id),str(manufact), str(model), str(age), str(odo), str(fuel), str(color), str(price), str(comment), str(img_url), str(predicted_price))
-                 
         db_cursor.execute(sql)
         mysql_db.commit()
        
-
-
 
     @staticmethod
     def get(car_id):
@@ -62,7 +60,6 @@ class Car:
         sql = "SELECT * FROM car_table WHERE car_id = '" + str(car_id) + "'"
         db_cursor.execute(sql)
         car = db_cursor.fetchone()
-        
         car = Car(car_id=car[0],
                   user_id=car[1],
                   manufact=car[2],
@@ -100,7 +97,6 @@ class Car:
         db_cursor.execute(sql)
         car_list = db_cursor.fetchall()
         return car_list
-
 
 
     @staticmethod

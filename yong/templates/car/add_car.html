@@ -1,6 +1,5 @@
 {% extends 'base.html' %}
 {% block content %}
-
 {% with messages = get_flashed_messages() %}
  {% if messages %}
   <script>
@@ -8,14 +7,8 @@
   </script>
   {% endif %}
 {% endwith %}
-
-
-
 <div class="row">
-
 <form enctype="multipart/form-data" class="col-5 d-grid gap-2" method="POST" action="{{ url_for('car.create') }}"> 
-   
-
     <select required="required" class="form-select p-2" id="manufact" name="manufact" >
       <option value="">제조사 선택</option>
       <option value="현대">현대</option>
@@ -29,60 +22,47 @@
       <option value="아우디">아우디</option>
       <option value="폭스바겐">폭스바겐</option>
     </select>
-
-
     <select required="required" class="form-select p-2" id="model" name="model">
       <option value="">모델 선택</option>
       <!-- 현대 -->
       <option value="아반떼" class="현대">아반떼</option>
       <option value="쏘나타" class="현대">쏘나타</option>
       <option value="그랜저" class="현대">그랜저</option>
-      
       <!-- 제네시스 -->
       <option value="G70" class="제네시스">G70</option>
-      <option value="G80" class="제네시스">G80</option>
-      
+      <option value="G80" class="제네시스">G80</option>     
       <!-- 기아 -->
       <option value="K3" class="기아">K3</option>
       <option value="K5" class="기아">K5</option>
       <option value="K7" class="기아">K7</option>
-      
       <!-- 르노삼성 -->
       <option value="SM3" class="르노삼성">SM3</option>
       <option value="SM5" class="르노삼성">SM5</option>
       <option value="SM6" class="르노삼성">SM6</option>
       <option value="SM7" class="르노삼성">SM7</option>
-
       <!-- 쌍용 -->
       <option value="티볼리" class="쌍용">티볼리</option>
       <option value="코란도" class="쌍용">코란도</option>
-      
        <!-- GM대우 -->
       <option value="크루즈" class="GM대우">크루즈</option>
       <option value="말리부" class="GM대우">말리부</option>
-
       <!-- 벤츠  -->
       <option value="C클래스" class="벤츠">C클래스</option>
       <option value="E클래스" class="벤츠">E클래스</option>
       <option value="S클래스" class="벤츠">S클래스</option>
-
       <!-- BMW  -->
       <option value="3시리즈" class="BMW">3시리즈</option>
       <option value="5시리즈" class="BMW">5시리즈</option>
       <option value="7시리즈" class="BMW">7시리즈</option>
-
       <!-- 아우디  -->
       <option value="A4" class="아우디">A4</option>
       <option value="A6" class="아우디">A6</option>
       <option value="A7" class="아우디">A7</option>
-
       <!-- 폭스바겐  -->
       <option value="골프" class="폭스바겐">골프</option>
       <option value="티구안" class="폭스바겐">티구안</option>
       <option value="파사트" class="폭스바겐">파사트</option>      
     </select>
-
-
     <select required="required" class="form-select p-2" id="age" name="age">
       <option value="">연식 선택</option>
       <option value="2021">2021년식</option>
@@ -108,17 +88,10 @@
       <option value="2001">2001년식</option>
       <option value="2000">2000년식</option>
     </select>
-
-
-
     <div class="input-group">
       <input required="required p-2" onkeyup="inputNumberFormat(this)" name="odo" id="odo" type="text" class="form-control" placeholder="주행거리" aria-describedby="basic-addon2">
       <span class="input-group-text p-2" id="basic-addon2">km</span>
     </div>
-
-    
-
-    
     <select required="required" class="form-select p-2" id="fuel" name="fuel">
       <option value="">연료타입 선택</option>
       <option value="가솔린">가솔린</option>
@@ -126,8 +99,6 @@
       <option value="LPG">LPG</option>
       <option value="hybird">하이브리드</option>
     </select>
-
-
     <select required="required" class="form-select p-2" id="color" name="color">
       <option value="">색상 선택</option>
       <option value="black">검정색</option>
@@ -135,38 +106,24 @@
       <option value="gray">은색&회색</option>
       <option value="other">기타</option>
     </select>
-
-
     <div class="input-group">
           <input required="required p-2" onkeyup="inputNumberFormat(this)" name="price" id="price" type="text" class="form-control" placeholder="가격" aria-describedby="basic-addon2">
           <span class="input-group-text p-2" id="basic-addon2">만원</span>
     </div>
-
-
     <div class="form-group">
           <label for="comment">상세 정보</label>
           <textarea class="form-control" name="comment" id="comment" rows="10" onKeyUp="javascript:fnChkByte(this,'1000')"></textarea>
-          
     </div>
-
-    
       <label for="comment">사진 등록 (필수)</label>
       <div class="input-group mb-3">
         <input type="file" name = 'file' class="form-control" accept="image/png, image/jpeg" >
       </div>
-  
-    
-          
     <button type="submit" class="p-3 btn btn-primary">등록하기</button>
-    
   </form>
-
-
-
 </div>
 
-<script>
 
+<script>
   let manu_select = document.getElementById('manufact');
   let model_select = document.getElementById('model');
   for(var item of model_select){
@@ -174,11 +131,8 @@
                 item.style.display = 'none';
             }
         }
-
   manu_select.onchange = function(){
-           
       var selectClass = manu_select.value;
-      
       for(var item of model_select){
         if(item.className == selectClass){          
           item.style.display ='inline';          
@@ -186,55 +140,39 @@
           item.style.display = 'none';
         }
       }
-
       firstVal = document.getElementsByClassName(selectClass)
       model_select.value = firstVal[0].value
-
   }
-
-
-
 </script>
-
 <script type="text/javascript">
     function comma(str) {
         str = String(str);
         return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
     }
-
     function uncomma(str) {
         str = String(str);
         return str.replace(/[^\d]+/g, '');
     } 
-    
     function inputNumberFormat(obj) {
         obj.value = comma(uncomma(obj.value));
-    }
-    
+    } 
     function inputOnlyNumberFormat(obj) {
         obj.value = onlynumber(uncomma(obj.value));
     }
-    
     function onlynumber(str) {
 	    str = String(str);
 	    return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g,'$1');
 	}
 </script>
-
-
 <script>
   function fnChkByte(obj, maxByte)
   {
       var str = obj.value;
       var str_len = str.length;
-
-
       var rbyte = 0;
       var rlen = 0;
       var one_char = "";
       var str2 = "";
-
-
       for(var i=0; i<str_len; i++)
       {
           one_char = str.charAt(i);
@@ -261,5 +199,4 @@
       }
   }
 </script>
-
 {% endblock %}
