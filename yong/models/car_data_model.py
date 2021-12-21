@@ -4,8 +4,6 @@ from yong.mysql import conn_mysqldb
 
 
 class CarData:
-
-
     @staticmethod
     def get_data():
         mysql_db = conn_mysqldb()
@@ -16,5 +14,3 @@ class CarData:
         car_list = db_cursor.fetchall()
         data = json_normalize(car_list)
         return data
-
-        

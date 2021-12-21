@@ -3,15 +3,16 @@ from yong.mysql import conn_mysqldb
 
 
 class Answer:
-
     def __init__(self,answer_id, user_id, question_id, content):
         self.answer_id = answer_id
         self.user_id = user_id
         self.question_id = question_id
         self.content = content
 
+
     def get_id(self):
         return str(self.answer_id)
+
 
     @staticmethod
     def create(user_id, question_id, content):
@@ -32,9 +33,9 @@ class Answer:
         answer = db_cursor.fetchone()
         if not answer:
             return None
-
         answer = Answer(answer_id=answer[0], user_id=answer[1], question_id=answer[2], content=answer[3])
         return answer
+
 
     @staticmethod
     def get_list(question_id):
@@ -49,6 +50,7 @@ class Answer:
         answer_list = db_cursor.fetchall()
         return answer_list
 
+
     @staticmethod
     def delete(answer_id):
         mysql_db = conn_mysqldb()
@@ -56,10 +58,3 @@ class Answer:
         sql = "DELETE FROM answer_table WHERE answer_id = '%s';" % str(answer_id)
         db_cursor.execute(sql)
         mysql_db.commit()
-
-
-
-
-
-
-

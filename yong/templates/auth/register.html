@@ -1,10 +1,8 @@
 {% extends "base.html" %}
 {% block content %}
-
 <div class="container my-3 w-50 ">
 <h5 class="my-3 border-bottom pb-2">회원가입</h5>
     <form method="post" class="post-form">
-    
         {{ form.hidden_tag() }}
         {% for field, errors in form.errors.items() %}
         <div class="alert alert-danger" role="alert">
@@ -41,8 +39,6 @@
             <input type="password" class="form-control" name="pw_confirm" id="pw_confirm"
                    value="{{ form.pw_confirm.data or '' }}">
         </div>
-       
-       
         <button type="submit" class="btn btn-primary">계정생성</button>
     </form>
 </div>

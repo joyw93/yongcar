@@ -2,8 +2,7 @@ from yong.utils import Utils
 
 
 class CarPredict:
-    def __init__(self, manufact, model, age, odo, fuel, color):
-        
+    def __init__(self, manufact, model, age, odo, fuel, color):        
         self.manufact = manufact
         self.model = model
         self.age = age

@@ -3,15 +3,16 @@ from yong.mysql import conn_mysqldb
 
 
 class User(UserMixin):
-
     def __init__(self, user_id, user_name, user_email, user_pw):
         self.user_id = user_id
         self.user_name = user_name
         self.user_email = user_email
         self.user_pw = user_pw
 
+
     def get_id(self):
         return str(self.user_id)
+
 
     @staticmethod
     def get(user_id):
@@ -22,9 +23,9 @@ class User(UserMixin):
         user = db_cursor.fetchone()
         if not user:
             return None
-
         user = User(user_id=user[0], user_name=user[1], user_email=user[2], user_pw=user[3])
         return user
+
 
     @staticmethod
     def find(user_email):
@@ -40,6 +41,7 @@ class User(UserMixin):
         user = User(user_id=user[0], user_name=user[1], user_email=user[2], user_pw=user[3])
         return user
 
+
     @staticmethod
     def create(user_name, user_email, user_pw):
         user = User.find(user_email)
@@ -53,5 +55,3 @@ class User(UserMixin):
             return User.find(user_email)
         else:
             return user
-
-

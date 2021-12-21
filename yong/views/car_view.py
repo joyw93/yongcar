@@ -45,20 +45,14 @@ def predict():
 @bp.route('/predict/report/<model>', methods=['GET','POST'])
 def report(model):
     cardata = CarData.get_data()
-    price_age_list=[]
-    price_odo_list=[]
-    model_list=[]
+    price_age_list = []
+    price_odo_list = []
+    model_list = []
     models=cardata['model'].unique()
     for model_ in models:model_list.append(len(cardata[cardata['model']==model_])) 
     for age in range(2000,2022):price_age_list.append(Utils.predict_price(model,age,0,'가솔린','black'))
     for odo in range(0,160000,10000):price_odo_list.append(Utils.predict_price(model,2021,odo,'가솔린','black'))
     return render_template('car/report_car.html', model_list=model_list, model=model, price_age_list=price_age_list, price_odo_list=price_odo_list)    
-
-
-@bp.route('/find', methods=['GET','POST'])
-def find():
-    
-    return render_template('car/find_model.html')    
 
 
 @bp.route('/list/', defaults={'current_page': 1})
@@ -69,18 +63,18 @@ def _list(current_page):
     except:
         None
     list_size = Car.get_size()
-    page_size=9
+    page_size = 9
     current_page_count = 3
     pagination = Pagination(list_size,page_size,current_page_count)
     page_count = pagination.page_count
-    if current_page>page_count:
-        current_page=page_count
-    elif current_page<=0:
-        current_page=1
+    if current_page > page_count:
+        current_page = page_count
+    elif current_page <= 0:
+        current_page = 1
     car_list = Car.get_page((current_page-1)*page_size,page_size)
     start_page = int((current_page-1)/current_page_count)*current_page_count+1
-    if (page_count-start_page)<current_page_count:
-        page_length = (page_count-start_page)+1
+    if (page_count-start_page) < current_page_count:
+        page_length = (page_count-start_page) + 1
     else:
         page_length = current_page_count
     return render_template('car/car_list.html',list_size=list_size, car_list=car_list, start_page=start_page, page_length=page_length, current_page=current_page)
@@ -89,14 +83,14 @@ def _list(current_page):
 @bp.route('/create', methods=['GET','POST'])
 @login_required
 def create():
-    if request.method =='POST':
+    if request.method == 'POST':
         manufact = request.form['manufact']
         model = request.form['model']
         age = int(request.form['age'])
         odo = int(request.form['odo'].replace(',', ''))
         fuel = request.form['fuel']
         color = request.form['color']
-        price =int(request.form['price'].replace(',', ''))
+        price = int(request.form['price'].replace(',', ''))
         comment = request.form['comment']
         user_id = current_user.user_id
         file = request.files['file']

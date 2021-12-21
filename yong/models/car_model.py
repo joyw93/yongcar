@@ -4,7 +4,6 @@ from yong.utils import Utils
 
 
 class Car:
-
     def __init__(self, car_id, user_id, manufact, model, age, odo, fuel, color, price, comment, img_url):
         self.car_id = car_id
         self.user_id = user_id
@@ -106,5 +105,3 @@ class Car:
         sql = "DELETE FROM car_table WHERE car_id = '%s';" % str(car_id)
         db_cursor.execute(sql)
         mysql_db.commit()
-
-    

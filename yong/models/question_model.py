@@ -1,18 +1,17 @@
 from datetime import time
-
 import pymysql.cursors
 from yong.mysql import conn_mysqldb
 from datetime import datetime
 
 
 class Question:
-
     def __init__(self, question_id, user_id, title, content, time):
         self.question_id = question_id
         self.user_id = user_id
         self.title = title
         self.content = content
         self.time = time
+
 
     def get_id(self):
         return str(self.question_id)
@@ -27,6 +26,7 @@ class Question:
         question_size = db_cursor.fetchone()
         return question_size[0]
 
+
     @staticmethod
     def create(user_id, title, content):
         mysql_db = conn_mysqldb()
@@ -35,6 +35,7 @@ class Question:
                 str(user_id), str(title), str(content), str(datetime.now()))
         db_cursor.execute(sql)
         mysql_db.commit()
+
 
     @staticmethod
     def get(question_id):
@@ -63,6 +64,7 @@ class Question:
         question_list = db_cursor.fetchall()
         return question_list
 
+
     @staticmethod
     def get_page(page,range):
         mysql_db = conn_mysqldb()
@@ -77,8 +79,6 @@ class Question:
         return question_list
 
 
-
-
     @staticmethod
     def delete(question_id):
         mysql_db = conn_mysqldb()
@@ -87,15 +87,14 @@ class Question:
         db_cursor.execute(sql)
         mysql_db.commit()
 
+
     @staticmethod
     def modify(title, content, question_id):
         mysql_db = conn_mysqldb()
         db_cursor = mysql_db.cursor()
-
         sql = """UPDATE question_table 
                  SET title='%s', content='%s' 
                  WHERE question_id = '%s';
                  """ % (str(title), str(content), str(question_id))
         db_cursor.execute(sql)
         mysql_db.commit()
-
