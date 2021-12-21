@@ -42,357 +42,161 @@
 
 
 <details>
-<summary><b>핵심 기능 설명 펼치기</b></summary>
+<summary><b>개발과정 펼치기</b></summary>
 <div markdown="1">
 
-### 4.1. 머신러닝 모델 학습을 위한 데이터 수집 및 전처리 과정
-#### 1. 동적 크롤링(Selenium)을 이용해 범주별 데이터 수집
+### 4.1. 머신러닝 모델 개발
+- 동적 크롤링(Selenium)을 이용해 범주별 데이터 수집 및 전처리
+  
   ![image](https://user-images.githubusercontent.com/48177285/146894491-cb278e59-15f7-4a48-9228-6f07a3452c5e.png)
-#### 2. 데이터 전처리
 
-### 4.2. 사용자 요청
-![](https://zuminternet.github.io/images/portal/post/2019-04-22-ZUM-Pilot-integer/flow_vue.png)
+- 교차검증을 통한 하이퍼 파라미터 튜닝 및 모델 학습
+  ~~~python
+  def print_best_params(model, params):
+      grid_model = GridSearchCV(model,
+                                param_grid=params,
+                                scoring='neg_mean_squared_error',
+                                cv=5)
+      grid_model.fit(X_train, y_train)
+      r2 = grid_model.best_score_
+      rmse = np.sqrt(-1*grid_model.best_score_)
+      print('{0} 5 CV 시 최적 평균 RMSE 값 : {1}, 최적 parameter : {2}'.format(model.__class__.__name__,
+                                                                   np.round(rmse, 4),grid_model.best_params_))
+  ~~~
+  ~~~python
+  lgbm_params = {'n_estimators':[100, 300, 500, 1000],
+               'learning_rate':[0.1, 0.05, 0.01],
+               'max_depth':[3, 4, 5, 6, 7, 8, 9],
+               'num_leaves':[6, 12, 24, 36]               
+               }
 
-- **URL 정규식 체크** :pushpin: [코드 확인](https://github.com/Integerous/goQuality/blob/b587bbff4dce02e3bec4f4787151a9b6fa326319/frontend/src/components/PostInput.vue#L67)
-  - Vue.js로 렌더링된 화면단에서, 사용자가 등록을 시도한 URL의 모양새를 정규식으로 확인합니다.
-  - URL의 모양새가 아닌 경우, 에러 메세지를 띄웁니다.
-
-- **Axios 비동기 요청** :pushpin: [코드 확인]()
-  - URL의 모양새인 경우, 컨텐츠를 등록하는 POST 요청을 비동기로 날립니다.
-
-### 4.3. Controller
-
-![](https://zuminternet.github.io/images/portal/post/2019-04-22-ZUM-Pilot-integer/flow_controller.png)
-
-- **요청 처리** :pushpin: [코드 확인](https://github.com/Integerous/goQuality/blob/b2c5e60761b6308f14eebe98ccdb1949de6c4b99/src/main/java/goQuality/integerous/controller/PostRestController.java#L55)
-  - Controller에서는 요청을 화면단에서 넘어온 요청을 받고, Service 계층에 로직 처리를 위임합니다.
-
-- **결과 응답** :pushpin: [코드 확인]()
-  - Service 계층에서 넘어온 로직 처리 결과(메세지)를 화면단에 응답해줍니다.
-
-### 4.4. Service
-
-![](https://zuminternet.github.io/images/portal/post/2019-04-22-ZUM-Pilot-integer/flow_service1.png)
-
-- **Http 프로토콜 추가 및 trim()** :pushpin: [코드 확인]()
-  - 사용자가 URL 입력 시 Http 프로토콜을 생략하거나 공백을 넣은 경우,  
-  올바른 URL이 될 수 있도록 Http 프로토콜을 추가해주고, 공백을 제거해줍니다.
-
-- **URL 접속 확인** :pushpin: [코드 확인]()
-  - 화면단에서 모양새만 확인한 URL이 실제 리소스로 연결되는지 HttpUrlConnection으로 테스트합니다.
-  - 이 때, 빠른 응답을 위해 Request Method를 GET이 아닌 HEAD를 사용했습니다.
-  - (HEAD 메소드는 GET 메소드의 응답 결과의 Body는 가져오지 않고, Header만 확인하기 때문에 GET 메소드에 비해 응답속도가 빠릅니다.)
-
-  ![](https://zuminternet.github.io/images/portal/post/2019-04-22-ZUM-Pilot-integer/flow_service2.png)
-
-- **Jsoup 이미지, 제목 파싱** :pushpin: [코드 확인]()
-  - URL 접속 확인결과 유효하면 Jsoup을 사용해서 입력된 URL의 이미지와 제목을 파싱합니다.
-  - 이미지는 Open Graphic Tag를 우선적으로 파싱하고, 없을 경우 첫 번째 이미지와 제목을 파싱합니다.
-  - 컨텐츠에 이미지가 없을 경우, 미리 설정해둔 기본 이미지를 사용하고, 제목이 없을 경우 생략합니다.
+  lgbm_reg = LGBMRegressor(n_estimators='n_estimators',
+                           learning_rate='learning_rate',
+                           objective='regression',
+                           boosting='gbdt',
+                           metric= 'rmse',
+                           n_jobs=-1)
 
 
-### 4.5. Repository
-
-![](https://zuminternet.github.io/images/portal/post/2019-04-22-ZUM-Pilot-integer/flow_repo.png)
-
-- **컨텐츠 저장** :pushpin: [코드 확인]()
-  - URL 유효성 체크와 이미지, 제목 파싱이 끝난 컨텐츠는 DB에 저장합니다.
-  - 저장된 컨텐츠는 다시 Repository - Service - Controller를 거쳐 화면단에 송출됩니다.
+  ~~~
+  ~~~python
+  lgbm = LGBMRegressor()
+  lgbm.fit(X_train, y_train,
+                   eval_set=[(X_test, y_test)],
+                   eval_metric='l1',
+                   early_stopping_rounds=1000)
+  pred = lgbm.predict(X_test)
+  evaluate_model(y_test, pred)
+  ~~~
+  ~~~python
+  lgbm = LGBMRegressor(n_estimators=1000,n_jobs=-1,learning_rate=0.05,max_depth=9,num_leaves=24)
+  lgbm.fit(X_train, y_train)
+  pred = lgbm.predict(X_test)
+  evaluate_model(y_test, pred)
+  ~~~
+  ~~~python
+  R2 score : 0.9527
+  MAE score : 0.1140
+  MSE score : 0.0254
+  RMSE score : 0.00064712
+  ~~~
+ 
+- 전체과정
+  
+  https://github.com/joyw93/AI_Project/blob/main/AI_06_%EC%A1%B0%EC%9A%A9%EC%9B%90_section2.ipynb
+  
+### 4.2. auth
+  
+- **회원가입/로그인 기능** :pushpin: [코드 확인](https://github.com/joyw93/yongcar/blob/main/yong/views/auth_view.py)
+  
+  - flask-WTF를 이용하여 백엔드에서도 유효성을 검사 합니다. 
+  - 파이썬 bcrypt 라이브러리를 이용해 패스워드를 암호화 합니다.
+  
+  
+### 4.3. car
+  
+- **시세 조회/매물 등록** :pushpin: [코드 확인](https://github.com/joyw93/yongcar/blob/main/yong/views/car_view.py)
+  
+  - pickle 형태로 저장된 ML 모델을 불러와 predict method를 구현 했습니다.
+  - 매물 등록시 사진은 서버가 아닌 S3 버킷에 저장 되도록 했습니다.
+  
+  
+### 4.4. question
+  
+- **자유게시판** :pushpin: [코드 확인](https://github.com/joyw93/yongcar/blob/main/yong/views/question_view.py)
+  
+  - 페이지네이션 기능을 구현 했습니다.
+  
+  
 
 </div>
 </details>
 
 </br>
 
-## 5. 핵심 트러블 슈팅
-### 5.1. 컨텐츠 필터와 페이징 처리 문제
-- 저는 이 서비스가 페이스북이나 인스타그램 처럼 가볍게, 자주 사용되길 바라는 마음으로 개발했습니다.  
-때문에 페이징 처리도 무한 스크롤을 적용했습니다.
+## 5. 트러블 슈팅
+### 5.1. 배포 후 DB 조회 오류
+- 서버 배포 전 매물 리스트와 게시판 데이터가 문제없이 조회되는 것을 확인 후 배포를 마쳤습니다.
 
-- 하지만 [무한스크롤, 페이징 혹은 “더보기” 버튼? 어떤 걸 써야할까](https://cyberx.tistory.com/82) 라는 글을 읽고 무한 스크롤의 단점들을 알게 되었고,  
-다양한 기준(카테고리, 사용자, 등록일, 인기도)의 게시물 필터 기능을 넣어서 이를 보완하고자 했습니다.
+- 첫 웹 애플리케이션 제작의 뿌듯함으로 인해 수시로 사이트를 접속하다가, 우연히 약 12시간 간격으로 DB 조회 시 한차례 에러가 났다가 새로 고침 후
+원상복구되는 버그를 발견했습니다.
 
-- 그런데 게시물이 필터링 된 상태에서 무한 스크롤이 동작하면,  
-필터링 된 게시물들만 DB에 요청해야 하기 때문에 아래의 **기존 코드** 처럼 각 필터별로 다른 Query를 날려야 했습니다.
+- 로컬 환경의 MySQL 서버로 재연결하여 테스트시 해당 문제가 발생하지 않았고, AWS RDS 인스턴스의 모니터링 탭을 확인한 결과 에러가 난 시점마다 로그가 찍혀 있었습니다.
+그래서 로그 메세지를 토대로 문제를 해결하려 했으나 RDS에 대한 지식 부족으로 인해 근원적인 문제를 해결하지 못했습니다.
 
-<details>
-<summary><b>기존 코드</b></summary>
-<div markdown="1">
+- 그러나 다른 방법으로, 매물과 게시판 DB를 조회 할 때 예외처리 구문을 추가하여 에러를 한차례 흘려주도록 하여 문제를 해결했습니다.
 
-~~~java
-/**
- * 게시물 Top10 (기준: 댓글 수 + 좋아요 수)
- * @return 인기순 상위 10개 게시물
- */
-public Page<PostResponseDto> listTopTen() {
+- 이론을 공부할 때는 조건문이 있는데 예외처리를 왜 해주어야 하는지 이해하지 못했지만, 해당 트러블슈팅 경험으로 예외처리의 필요성을 느끼게 되었습니다.
 
-    PageRequest pageRequest = PageRequest.of(0, 10, Sort.Direction.DESC, "rankPoint", "likeCnt");
-    return postRepository.findAll(pageRequest).map(PostResponseDto::new);
-}
+- 또한 RDS같은 서비스를 잘 이용하기 위해서는 단순히 사용 방법만 터득하는 것이 아니라 어떤 방식으로 동작하는지에 대한 이해도 중요하다고 생각하게 됐습니다.
 
-/**
- * 게시물 필터 (Tag Name)
- * @param tagName 게시물 박스에서 클릭한 태그 이름
- * @param pageable 페이징 처리를 위한 객체
- * @return 해당 태그가 포함된 게시물 목록
- */
-public Page<PostResponseDto> listFilteredByTagName(String tagName, Pageable pageable) {
 
-    return postRepository.findAllByTagName(tagName, pageable).map(PostResponseDto::new);
-}
-
-// ... 게시물 필터 (Member) 생략 
-
-/**
- * 게시물 필터 (Date)
- * @param createdDate 게시물 박스에서 클릭한 날짜
- * @return 해당 날짜에 등록된 게시물 목록
- */
-public List<PostResponseDto> listFilteredByDate(String createdDate) {
-
-    // 등록일 00시부터 24시까지
-    LocalDateTime start = LocalDateTime.of(LocalDate.parse(createdDate), LocalTime.MIN);
-    LocalDateTime end = LocalDateTime.of(LocalDate.parse(createdDate), LocalTime.MAX);
-
-    return postRepository
-                    .findAllByCreatedAtBetween(start, end)
-                    .stream()
-                    .map(PostResponseDto::new)
-                    .collect(Collectors.toList());
-    }
-~~~
-
-</div>
-</details>
-
-- 이 때 카테고리(tag)로 게시물을 필터링 하는 경우,  
-각 게시물은 최대 3개까지의 카테고리(tag)를 가질 수 있어 해당 카테고리를 포함하는 모든 게시물을 질의해야 했기 때문에  
-- 아래 **개선된 코드**와 같이 QueryDSL을 사용하여 다소 복잡한 Query를 작성하면서도 페이징 처리를 할 수 있었습니다.
-
-<details>
-<summary><b>개선된 코드</b></summary>
-<div markdown="1">
-
-~~~java
-/**
- * 게시물 필터 (Tag Name)
- */
-@Override
-public Page<Post> findAllByTagName(String tagName, Pageable pageable) {
-
-    QueryResults<Post> results = queryFactory
-            .selectFrom(post)
-            .innerJoin(postTag)
-                .on(post.idx.eq(postTag.post.idx))
-            .innerJoin(tag)
-                .on(tag.idx.eq(postTag.tag.idx))
-            .where(tag.name.eq(tagName))
-            .orderBy(post.idx.desc())
-                .limit(pageable.getPageSize())
-                .offset(pageable.getOffset())
-            .fetchResults();
-
-    return new PageImpl<>(results.getResults(), pageable, results.getTotal());
-}
-~~~
-
-</div>
-</details>
-
-</br>
-
-## 6. 그 외 트러블 슈팅
-<details>
-<summary>npm run dev 실행 오류</summary>
-<div markdown="1">
-
-- Webpack-dev-server 버전을 3.0.0으로 다운그레이드로 해결
-- `$ npm install —save-dev webpack-dev-server@3.0.0`
-
-</div>
-</details>
-
-<details>
-<summary>vue-devtools 크롬익스텐션 인식 오류 문제</summary>
-<div markdown="1">
-  
-  - main.js 파일에 `Vue.config.devtools = true` 추가로 해결
-  - [https://github.com/vuejs/vue-devtools/issues/190](https://github.com/vuejs/vue-devtools/issues/190)
-  
-</div>
-</details>
-
-<details>
-<summary>ElementUI input 박스에서 `v-on:keyup.enter="메소드명"`이 정상 작동 안하는 문제</summary>
-<div markdown="1">
-  
-  - `v-on:keyup.enter.native=""` 와 같이 .native 추가로 해결
-  
-</div>
-</details>
-
-<details>
-<summary> Post 목록 출력시에 Member 객체 출력 에러 </summary>
-<div markdown="1">
-  
-  - 에러 메세지(500에러)
-    - No serializer found for class org.hibernate.proxy.pojo.javassist.JavassistLazyInitializer and no properties discovered to create BeanSerializer (to avoid exception, disable SerializationConfig.SerializationFeature.FAIL_ON_EMPTY_BEANS)
-  - 해결
-    - Post 엔티티에 @ManyToOne 연관관계 매핑을 LAZY 옵션에서 기본(EAGER)옵션으로 수정
-  
-</div>
-</details>
-    
-<details>
-<summary> 프로젝트를 git init으로 생성 후 발생하는 npm run dev/build 오류 문제 </summary>
-<div markdown="1">
-  
-  ```jsx
-    $ npm run dev
-    npm ERR! path C:\Users\integer\IdeaProjects\pilot\package.json
-    npm ERR! code ENOENT
-    npm ERR! errno -4058
-    npm ERR! syscall open
-    npm ERR! enoent ENOENT: no such file or directory, open 'C:\Users\integer\IdeaProjects\pilot\package.json'
-    npm ERR! enoent This is related to npm not being able to find a file.
-    npm ERR! enoent
-
-    npm ERR! A complete log of this run can be found in:
-    npm ERR!     C:\Users\integer\AppData\Roaming\npm-cache\_logs\2019-02-25T01_23_19_131Z-debug.log
-  ```
-  
-  - 단순히 npm run dev/build 명령을 입력한 경로가 문제였다.
-   
-</div>
-</details>    
-
-<details>
-<summary> 태그 선택후 등록하기 누를 때 `object references an unsaved transient instance - save the transient instance before flushing` 오류</summary>
-<div markdown="1">
-  
-  - Post 엔티티의 @ManyToMany에 영속성 전이(cascade=CascadeType.ALL) 추가
-    - JPA에서 Entity를 저장할 때 연관된 모든 Entity는 영속상태여야 한다.
-    - CascadeType.PERSIST 옵션으로 부모와 자식 Enitity를 한 번에 영속화할 수 있다.
-    - 참고
-        - [https://stackoverflow.com/questions/2302802/object-references-an-unsaved-transient-instance-save-the-transient-instance-be/10680218](https://stackoverflow.com/questions/2302802/object-references-an-unsaved-transient-instance-save-the-transient-instance-be/10680218)
-   
-</div>
-</details>    
-
-<details>
-<summary> JSON: Infinite recursion (StackOverflowError)</summary>
-<div markdown="1">
-  
-  - @JsonIgnoreProperties 사용으로 해결
-    - 참고
-        - [http://springquay.blogspot.com/2016/01/new-approach-to-solve-json-recursive.html](http://springquay.blogspot.com/2016/01/new-approach-to-solve-json-recursive.html)
-        - [https://stackoverflow.com/questions/3325387/infinite-recursion-with-jackson-json-and-hibernate-jpa-issue](https://stackoverflow.com/questions/3325387/infinite-recursion-with-jackson-json-and-hibernate-jpa-issue)
-        
-</div>
-</details>  
-    
-<details>
-<summary> H2 접속문제</summary>
-<div markdown="1">
-  
-  - H2의 JDBC URL이 jdbc:h2:~/test 으로 되어있으면 jdbc:h2:mem:testdb 으로 변경해서 접속해야 한다.
-        
-</div>
-</details> 
-    
-<details>
-<summary> 컨텐츠수정 모달창에서 태그 셀렉트박스 드랍다운이 뒤쪽에 보이는 문제</summary>
-<div markdown="1">
-  
-   - ElementUI의 Global Config에 옵션 추가하면 해결
-     - main.js 파일에 `Vue.us(ElementUI, { zIndex: 9999 });` 옵션 추가(9999 이하면 안됌)
-   - 참고
-     - [https://element.eleme.io/#/en-US/component/quickstart#global-config](https://element.eleme.io/#/en-US/component/quickstart#global-config)
-        
-</div>
-</details> 
-
-<details>
-<summary> HTTP delete Request시 개발자도구의 XHR(XMLHttpRequest )에서 delete요청이 2번씩 찍히는 이유</summary>
-<div markdown="1">
-  
-  - When you try to send a XMLHttpRequest to a different domain than the page is hosted, you are violating the same-origin policy. However, this situation became somewhat common, many technics are introduced. CORS is one of them.
-
-        In short, server that you are sending the DELETE request allows cross domain requests. In the process, there should be a **preflight** call and that is the **HTTP OPTION** call.
-
-        So, you are having two responses for the **OPTION** and **DELETE** call.
-
-        see [MDN page for CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS).
-
-    - 출처 : [https://stackoverflow.com/questions/35808655/why-do-i-get-back-2-responses-of-200-and-204-when-using-an-ajax-call-to-delete-o](https://stackoverflow.com/questions/35808655/why-do-i-get-back-2-responses-of-200-and-204-when-using-an-ajax-call-to-delete-o)
-        
-</div>
-</details> 
-
-<details>
-<summary> 이미지 파싱 시 og:image 경로가 달라서 제대로 파싱이 안되는 경우</summary>
-<div markdown="1">
-  
-  - UserAgent 설정으로 해결
-        - [https://www.javacodeexamples.com/jsoup-set-user-agent-example/760](https://www.javacodeexamples.com/jsoup-set-user-agent-example/760)
-        - [http://www.useragentstring.com/](http://www.useragentstring.com/)
-        
-</div>
-</details> 
-    
-<details>
-<summary> 구글 로그인으로 로그인한 사용자의 정보를 가져오는 방법이 스프링 2.0대 버전에서 달라진 것</summary>
-<div markdown="1">
-  
-  - 1.5대 버전에서는 Controller의 인자로 Principal을 넘기면 principal.getName(0에서 바로 꺼내서 쓸 수 있었는데, 2.0대 버전에서는 principal.getName()의 경우 principal 객체.toString()을 반환한다.
-    - 1.5대 버전에서 principal을 사용하는 경우
-    - 아래와 같이 사용했다면,
-
-    ```jsx
-    @RequestMapping("/sso/user")
-    @SuppressWarnings("unchecked")
-    public Map<String, String> user(Principal principal) {
-        if (principal != null) {
-            OAuth2Authentication oAuth2Authentication = (OAuth2Authentication) principal;
-            Authentication authentication = oAuth2Authentication.getUserAuthentication();
-            Map<String, String> details = new LinkedHashMap<>();
-            details = (Map<String, String>) authentication.getDetails();
-            logger.info("details = " + details);  // id, email, name, link etc.
-            Map<String, String> map = new LinkedHashMap<>();
-            map.put("email", details.get("email"));
-            return map;
-        }
-        return null;
-    }
-    ```
-
-    - 2.0대 버전에서는
-    - 아래와 같이 principal 객체의 내용을 꺼내 쓸 수 있다.
-
-    ```jsx
-    UsernamePasswordAuthenticationToken token =
-                    (UsernamePasswordAuthenticationToken) SecurityContextHolder
-                            .getContext().getAuthentication();
-            Map<String, Object> map = (Map<String, Object>) token.getPrincipal();
-
-            String email = String.valueOf(map.get("email"));
-            post.setMember(memberRepository.findByEmail(email));
-    ```
-        
-</div>
-</details> 
-    
-<details>
-<summary> 랭킹 동점자 처리 문제</summary>
-<div markdown="1">
-  
-  - PageRequest의 Sort부분에서 properties를 "rankPoint"를 주고 "likeCnt"를 줘서 댓글수보다 좋아요수가 우선순위 갖도록 설정.
-  - 좋아요 수도 똑같다면..........
-        
-</div>
-</details> 
     
 </br>
 
 ## 6. 회고 / 느낀점
->프로젝트 개발 회고 글: https://zuminternet.github.io/ZUM-Pilot-integer/
+
+AI 공부를 위해 머신러닝 모델을 만드는 프로젝트를 진행했고, 그것을 활용한 실제 서비스 또한 제작해 보고 싶었습니다.
+마침 개발 경험이 부족한 사람도 쉽게 웹어플리케이션을 만들 수 있다는 Flask를 공부할 기회가 있던 덕에 이를 이용해 중고차 거래 플랫폼을 만들어 보기로 결심했습니다.   
+
+처음에는 간단한 형태의 게시판부터 시작하여 기능을 하나씩 추가해 나가다 보니 마치 작은 생태계를 창조해 내는 기분이 들었습니다. 원하는대로 기능이 동작하지 않거나 원인불명의 오류가 발생할 때면
+너무 답답한 기분이 들었지만 문제가 해결되는 순간마다 즐겁고 오히려 코드는 거짓말을 하지 않는다는 생각이 들어 이번 프로젝트로 인해 백엔드 개발에 대한 흥미를 발견하게 됐습니다.   
+
+이번 프로젝트를 통해 스스로 발전 한 부분도 많았지만, 프로젝트를 진행하는 도중과 프로젝트를 완료하고 난 시점에서 주요하게 느꼈던 점들은 다음과 같습니다.   
+
+
+
+    1. 코드 리팩토링의 필요성과 시점
+
+한창 새로운 기능 개발에 몰두하고 있을때면 제가 머릿속으로 구상한 기능이 실제로 동작하는 모습을 빨리 보고싶은 마음에 날림식으로 코드를 작성했습니다.
+복잡하면서 가독성이 떨어지는 코드라는것을 스스로 알았지만, 어차피 기능이 잘 돌아가는지가 가장 중요한것이고 필요하다면 추후 한꺼번에 고치면 된다고 생각했습니다.   
+
+하지만 시간이 조금만 지나도 코드를 해석하기 힘들었고 또다른 기능 구현에 신경쓰느라 악순환이 반복 되었습니다.
+예시로, 게시판의 한 페이지에 표시되는 게시물 수를 조정하기 위해 페이지네이션 코드를 수정할 일이 있었는데 각 변수가 뜻하는 바가 무엇인지 알기가 힘들고 코드의 가독성이 떨어져서
+어떤 변수값을 조정해야 하는지 난감한 경우가 있었습니다.   
+
+다른 개발자와의 협업과 유지보수의 용이성을 높이기 위해서 코드 리팩토링은 반드시 필요함을 깨달았고 그것을 나중으로 미뤄서는 안되겠다고 생각했습니다.
+
+
+
+    2. 불필요하게 중복되는 코드들
+
+기존에 만들어놓은 클래스를 잘 활용하면 구현할 수 있는 기능도 당장의 위기를 모면하기 위해 비슷한 형태의 클래스를 만들어 사용했습니다.
+당시에는 문제라고 인식을 잘 못했지만 지나고 보니 코드에서 한심함이 느껴졌습니다. 코드의 중복을 피하기 위해서 최대한 기능을 분할시켜서 구현하고 오버로딩, 오버라이딩, 상속 등 
+클래스에 대한 더 많은 공부와 연습이 필요함을 느꼈습니다.
+
+
+
+    3. How 만큼 Why 에도 신경쓰자
+    
+어떤 기능을 구현하기 위해 각종 라이브러리를 불러오거나 AWS같은 서비스를 사용해야 할 일이 많았습니다. 사실 그러한 것들이 어떤 원리로 작동하는지와 코드를 까보면 어떤 형태인지
+잘 알지 못하더라도 어떻게 쓰는것인지만 알면 기능 구현에는 큰 어려움이 없었습니다. 하지만 완벽하게는 아니더라도 어느정도는 동작 방식을 알아두어야 추후 관련 문제가 발생했을 때 해결에 좀 더
+용이할 수 있다고 생각했습니다.
+
+
+
+    4. Test 자동화의 필요성
+    
+어떤 기능을 새롭게 만들었을 때, 그 전까지는 잘 작동하던 기능이 갑자기 고장나 버리는 경우가 있었습니다. 소규모 웹사이트의 경우에는 그런 경우를 운좋게 발견한다 치더라도
+대규모 웹사이트에선 그렇지 못할것입니다. 이번 프로젝트에서는 메인 기능을 추가할 때 마다 다른 기능들이 정상동작 하는지 일일이 확인 했지만, 다음 프로젝트에서는 기능별 테스트코드를 작성해서
+기능 검사에 쓰는 시간을 줄여야겠다고 생각했습니다.
