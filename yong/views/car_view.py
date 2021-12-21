@@ -8,8 +8,8 @@ from yong.models.car_model import Car
 from yong.models.pagination_model import Pagination
 from yong.models.car_data_model import CarData
 from flask_login import current_user, login_required
-from yong.config import BUCKET_PATH
-# BUCKET_PATH = os.environ['BUCKET_PATH']
+#from yong.config import BUCKET_PATH
+BUCKET_PATH = os.environ['BUCKET_PATH']
 
 
 bp = Blueprint('car', __name__, url_prefix='/car')
