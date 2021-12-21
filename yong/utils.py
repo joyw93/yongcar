@@ -1,12 +1,12 @@
 import pandas as pd
 import numpy as np
 import os
-#from yong.config import ACCESS_KEY_ID, ACCESS_SECRET_KEY, BUCKET_NAME
 import boto3
 import joblib
 from botocore.client import Config
 import locale
 locale.setlocale(locale.LC_ALL, '')
+#from yong.config import ACCESS_KEY_ID, ACCESS_SECRET_KEY, BUCKET_NAME
 ACCESS_KEY_ID = os.environ['ACCESS_KEY_ID']
 ACCESS_SECRET_KEY = os.environ['ACCESS_SECRET_KEY']
 BUCKET_NAME = os.environ['BUCKET_NAME']

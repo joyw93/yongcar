@@ -4,8 +4,6 @@ import os
 MYSQL_HOST = os.environ['MYSQL_HOST']
 MYSQL_USER_ID = os.environ['MYSQL_USER_ID']
 MYSQL_USER_PW = os.environ['MYSQL_USER_PW']
-
-
 MYSQL_CONN = pymysql.connect(
     host=MYSQL_HOST,
     port=3306,

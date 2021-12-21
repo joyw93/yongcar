@@ -11,7 +11,6 @@ from flask_login import current_user, login_required
 #from yong.config import BUCKET_PATH
 BUCKET_PATH = os.environ['BUCKET_PATH']
 
-
 bp = Blueprint('car', __name__, url_prefix='/car')
 cardata = CarData.get_data()
 
