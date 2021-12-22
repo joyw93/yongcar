@@ -13,6 +13,7 @@
 ## 2. 사용 기술
 #### `Back-end`
   - Python 3
+  - Flask
   - MySQL
   - AWS S3
 #### `Front-end`
