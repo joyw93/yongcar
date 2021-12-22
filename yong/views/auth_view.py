@@ -17,6 +17,10 @@ def register():
         pw = request.form['pw']
         pw_hash = hashpw(pw.encode('UTF-8'), gensalt()).decode()
         if not User.find(email):
+            try:
+                User.create(name, email, pw_hash)
+            except:
+                None
             User.create(name, email, pw_hash)
             user = User.find(email)
             login_user(user)
