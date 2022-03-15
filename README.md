@@ -36,10 +36,22 @@
 
 
 ## 4. 핵심 기능
-- 차종, 연식, 주행거리, 연료 타입, 색상 등의 정보를 입력하면 해당 중고차 매물의 가격을 예측해 줍니다.
-- 중고차 거래를 위해 매물을 등록 및 탐색할 수 있으며 예측 시세를 토대로 허위매물에 경고 표시를 해줍니다.
-- 질문 글/답글을 통해 유저 간 정보를 공유하는 자유게시판이 있습니다.
-
+차종, 연식, 주행거리, 연료 타입, 색상 등의 정보를 입력하면 해당 중고차 매물의 가격을 예측해 줍니다.
+</br>
+</br>
+<img width="589" alt="predict" src="https://user-images.githubusercontent.com/48177285/158297603-a1851963-797a-4f39-bd34-9dce45534a13.PNG">
+</br>
+</br>
+중고차 거래를 위해 매물을 등록 및 탐색할 수 있으며 예측 시세를 토대로 허위매물에 경고 표시를 해줍니다.
+</br>
+</br>
+<img width="568" alt="carlist_alert" src="https://user-images.githubusercontent.com/48177285/158297647-af738eba-ea74-4e19-939c-f6f99e8f3ed7.PNG">
+</br>
+</br>
+질문 글/답글을 통해 유저 간 정보를 공유하는 자유게시판이 있습니다.
+</br>
+</br>
+<img width="597" alt="board" src="https://user-images.githubusercontent.com/48177285/158297693-3372f796-3291-44a2-bf7d-2c26b882cf4d.PNG">
 
 
 <details>
