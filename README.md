@@ -1,6 +1,5 @@
 # :pushpin: yongcar
 >중고차 시세 예측 서비스  
->http://yongcar.co.kr 
 
 </br>
 
